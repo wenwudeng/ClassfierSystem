@@ -1,14 +1,13 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div>算法展示</div>
 </template>
 
 <script>
 export default {
-  name: "App"
-};
+
+}
 </script>
 
 <style>
+
 </style>

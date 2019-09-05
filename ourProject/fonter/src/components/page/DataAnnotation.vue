@@ -1,14 +1,13 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div>数据标注</div>
 </template>
 
 <script>
 export default {
-  name: "App"
-};
+
+}
 </script>
 
 <style>
+
 </style>

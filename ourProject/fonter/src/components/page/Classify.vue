@@ -1,14 +1,13 @@
 <template>
-  <div>
-    <router-view />
-  </div>
+  <div>分类</div>
 </template>
 
 <script>
 export default {
-  name: "App"
-};
+
+}
 </script>
 
 <style>
+
 </style>
