@@ -6,11 +6,8 @@ import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import '@/assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import '@/assets/css/main.css'
 import '@/assets/css/scrollbar.css'
-
-// import './canvas-nest.min.js';
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
