@@ -16,7 +16,6 @@ import pymysql
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = 'u&h66z+6aci@_sz)ig(pvk=21fxpe91%v9b&$4*(be9e+2bxzc'
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -44,13 +42,16 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'backer.myMiddle.MyCorsMiddle'
+    'backer.myMiddle.MyCorsMiddle',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'ourProject.urls'
 
@@ -73,22 +74,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ourProject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.mysql',   # 数据库引擎
-          # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-         'NAME': 'python',  # 数据库名，先前创建的
-         'USER': 'root',     # 用户名，可以自己创建用户
-         'PASSWORD': 'root',  # 密码
-         'HOST': '127.0.0.1',  # mysql服务所在的主机ip
-         'PORT': '3306',         # mysql服务端口
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'python',  # 数据库名，先前创建的
+        'USER': 'root',  # 用户名，可以自己创建用户
+        'PASSWORD': 'root',  # 密码
+        'HOST': '127.0.0.1',  # mysql服务所在的主机ip
+        'PORT': '3306',  # mysql服务端口
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -108,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -121,7 +119,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

@@ -16,14 +16,16 @@
             <i class="el-icon-s-operation"></i>
           </div>
         </el-menu-item>
-        <!-- <el-menu-item index="1">选项1</el-menu-item>
-      <el-menu-item index="2">选项2</el-menu-item>
-      <el-menu-item index="3">选项3</el-menu-item>
-        <el-menu-item index="4">选项4</el-menu-item>-->
-
-        <div>
-          <img class="user-avatar" src="@/assets/user.png" />
-        </div>
+        <el-dropdown class="avatar-container" @command="handleCommand" trigger="click">
+          <div class="user-container">
+            <img class="user-avatar" src="@/assets/logo.png" />
+            <i class="el-icon-arrow-down user-icon"></i>
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="0">主页</el-dropdown-item>
+            <el-dropdown-item command="-1">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-menu>
     </el-header>
 
@@ -109,6 +111,13 @@ export default {
       this.active = key;
       console.log(key);
       console.log(keyPath);
+    },
+    handleCommand(command) {
+      if (command == 0) {
+        this.active = command;
+      } else {
+        // 退出登录
+      }
     }
   }
 };
@@ -116,6 +125,21 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.avatar-container {
+  cursor: pointer;
+  float: right;
+}
+.user-container {
+  margin: 9px 10px 0px 0px;
+}
+.user-icon {
+  color: #cccccc;
+}
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
 .mainstyle1 {
   margin-left: -95px;
   transition: margin-left 0.5s;
@@ -127,12 +151,5 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
-}
-.user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  float: right;
-  margin: 9px 20px 0px 0px;
 }
 </style>

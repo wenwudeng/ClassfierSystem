@@ -7,6 +7,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'dashboard',
+      component: () => import('@/components/login')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/components/login')
