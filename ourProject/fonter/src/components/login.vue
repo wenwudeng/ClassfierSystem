@@ -1,55 +1,107 @@
 <template>
   <div class="fullscreen">
-    <div class="login-box">
+    <div class="login-box" style="margin-top:-10px">
       <div style="text-align: center">
         <img src="../assets/logo.png" alt class="logo" />
       </div>
-      <p class="text-tips">你好，欢迎登录</p>
-      <form action>
-        <el-input type="text" placeholder="Username" v-model="username"></el-input>
-        <el-input type="password" placeholder="Password" v-model="password" style="margin-top:5px"></el-input>
-        <p class="text-tips">免密码，点击登录按钮进入</p>
-        <el-button
-          class="m-btn sub select-none"
-          @click.prevent="handleLogin"
-          v-loading="isLoging"
-        >登录</el-button>
-      </form>
+      <transition name="el-zoom-in-center" :duration="350">
+        <div v-if="boxType">
+          <p class="text-tips">你好，欢迎登录</p>
+          <el-form :model="loginForm">
+            <el-form-item prop="username">
+              <el-input type="text" placeholder="请输入用户名或手机号" v-model="loginForm.username" clearable></el-input>
+            </el-form-item>
+            <el-form-item prop="password" style="margin-top:-15px">
+              <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" clearable></el-input>
+            </el-form-item>
+            <el-button class="m-btn sub select-none" @click="login" v-loading="isLoging">登录</el-button>
+            <p class="text-tips">
+              <a href @click.prevent="boxType = !boxType">没有账号？点击注册</a>
+            </p>
+          </el-form>
+        </div>
+      </transition>
+      <transition name="el-zoom-in-center" :duration="350">
+        <div v-if="!boxType">
+          <p class="text-tips">你好，欢迎注册</p>
+          <el-form :model="loginForm">
+            <el-form-item prop="username">
+              <el-input type="text" placeholder="请输入用户名或手机号" v-model="loginForm.username" clearable></el-input>
+            </el-form-item>
+            <el-form-item prop="password" style="margin-top:-15px">
+              <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" clearable></el-input>
+            </el-form-item>
+            <el-button class="m-btn sub select-none" @click="register" v-loading="isLoging">注册</el-button>
+            <p class="text-tips">
+              <a href @click.prevent="boxType = !boxType">已有账号？点击登录</a>
+            </p>
+          </el-form>
+        </div>
+      </transition>
       <div style="margin-top: 50px"></div>
       <p class="text-tips">
         <span class="footer-text">©make by Team 9</span>
-        <!-- <router-link to="/test">路由测试</router-link> -->
       </p>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: "login",
   data() {
     return {
-      username: "admin",
-      password: "123",
-      isLoging: false
+      loginForm: {
+        username: "admin",
+        password: "123"
+      },
+      isLoging: false,
+      // boxType为true显示登录，false显示注册界面
+      boxType: true
     };
   },
+
   methods: {
-    handleLogin() {
-      if (!this.username || !this.password) {
+    login() {
+      if (!this.loginForm.username || !this.loginForm.password) {
         return this.$message.warning("用户名和密码不能为空");
       }
       this.isLoging = true;
 
       this.$axios
         .post("/login/", {
-          username: this.username,
-          password: this.password
+          username: this.loginForm.username,
+          password: this.loginForm.password
         })
         .then(response => {
           if (response.data.errno === 200) {
             this.$message.success(response.data.msg);
             this.$router.push({
               path: "/home"
+            });
+          } else {
+            this.$message.error(response.data.msg);
+          }
+          this.isLoging = false;
+        })
+        .catch(error => {});
+    },
+    register() {
+      if (!this.loginForm.username || !this.loginForm.password) {
+        return this.$message.warning("用户名和密码不能为空");
+      }
+      this.isLoging = true;
+
+      this.$axios
+        .post("/register/", {
+          username: this.loginForm.username,
+          password: this.loginForm.password
+        })
+        .then(response => {
+          if (response.data.errno === 200) {
+            this.$message.success(response.data.msg);
+            this.$router.push({
+              path: "/login"
             });
           } else {
             this.$message.error(response.data.msg);
@@ -115,10 +167,10 @@ export default {
   box-sizing: border-box;
 }
 .login-box .m-btn {
-  font-size: 18px;
+  font-size: 15px;
   width: 100%;
   color: #fff;
-  background-color: #36c1fa;
+  background-color: rgb(64, 158, 255);
   display: inline-block;
   padding: 10px 12px;
   margin-bottom: 5px;
@@ -127,7 +179,7 @@ export default {
   cursor: pointer;
   outline: none;
   border-radius: 2px;
-  border: 1px solid #36c1fa;
+  border: 1px solid rgb(64, 158, 255);
   box-sizing: border-box;
   text-decoration: none;
 }

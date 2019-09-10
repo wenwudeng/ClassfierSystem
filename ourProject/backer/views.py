@@ -2,7 +2,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import random
-from .models import Person
+
+from .models import *
 
 
 def DataTest(request):
@@ -17,7 +18,9 @@ def login(request):
     username = user.get('username')
     password = user.get('password')
     data = {}
-    if (username == 'admin' and password == '123'):
+    # 如果数据库没有，则user为None
+    user = User.objects.filter(username=username, password=password).first()
+    if (user is not None):
         data['errno'] = 200
         data['msg'] = '登录成功'
     else:
@@ -26,6 +29,29 @@ def login(request):
 
     return JsonResponse(data)
 
+
+@csrf_exempt
+def register(request):
+    user = json.load(request)
+    username = user.get('username')
+    password = user.get('password')
+    data = {}
+    # 如果数据库没有，则user为None
+    user = User.objects.filter(username=username).first()
+    print(user)
+    if (user is not None):
+        data['errno'] = 405
+        data['msg'] = '用户名或手机号已经注册'
+        return JsonResponse(data)
+
+    user = User()
+    user.username = username
+    user.password = password
+    user.save()
+
+    data['errno'] = 200
+    data['msg'] = '注册成功'
+    return JsonResponse(data)
 
 
 # 增

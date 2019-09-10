@@ -7,6 +7,7 @@ urlpatterns = [
     path(r'admin/', admin.site.urls),
     path('data/', views.DataTest),
     path('login/', views.login),
+    path('register/', views.register),
 
     # 数据库增删改查示例
     path('insertPerson/', views.insertPerson),

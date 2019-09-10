@@ -130,7 +130,7 @@ export default {
   float: right;
 }
 .user-container {
-  margin: 9px 10px 0px 0px;
+  margin: 9px 15px 0px 0px;
 }
 .user-icon {
   color: #cccccc;
