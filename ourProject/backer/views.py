@@ -1,6 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import random
+from .models import Person
 
 
 def DataTest(request):
@@ -15,7 +17,7 @@ def login(request):
     username = user.get('username')
     password = user.get('password')
     data = {}
-    if (username=='admin' and password=='123'):
+    if (username == 'admin' and password == '123'):
         data['errno'] = 200
         data['msg'] = '登录成功'
     else:
@@ -23,3 +25,46 @@ def login(request):
         data['msg'] = '账号或密码错误'
 
     return JsonResponse(data)
+
+
+
+# 增
+def insertPerson(request):
+    # 创建一个对象
+    person = Person()
+    # 设置属性
+    person.p_name = "王" + str(random.randint(1, 100))
+    person.p_age = random.randint(1, 100)
+    person.p_sex = random.randint(0, 1)
+    # 保存数据
+    person.save()
+    return HttpResponse("插入成功")
+
+
+# 删
+def delPerson(request):
+    id = 2
+    person = Person.objects.filter(id=id)  # 用变量person接收获取到的对象
+    person.delete()
+    return HttpResponse("删除成功")
+
+
+# 改
+def updatePerson(request):
+    id = 1
+    person = Person.objects.filter(id=id).first()
+    person.p_name = "王小明"
+    person.p_age = 18
+    person.p_sex = 0
+    person.save()
+    return HttpResponse("修改成功")
+
+
+# 查
+def listPerson(request):
+    persons = Person.objects.all()
+    for item in persons:
+        print(item.id)
+
+    # 可以使用JsonResponse返回json数据到前端
+    return HttpResponse("查询成功")
