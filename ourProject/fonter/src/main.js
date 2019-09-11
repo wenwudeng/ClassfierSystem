@@ -7,6 +7,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/main.css'
 import '@/assets/css/scrollbar.css'
+import VueParticles from 'vue-particles'
+
+
+Vue.use(VueParticles)
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);

@@ -1,47 +1,70 @@
 <template>
-  <div class="fullscreen">
-    <div class="login-box" style="margin-top:-10px">
-      <div style="text-align: center">
-        <img src="../assets/logo.png" alt class="logo" />
+  <div>
+    <vue-particles style="background:#f4f5f5;position:fixed;width:100%;height:100%;"></vue-particles>
+    <div class="fullscreen">
+      <div class="login-box" style="margin-top:-10px">
+        <div style="text-align: center">
+          <img src="../assets/logo.png" alt class="logo" />
+        </div>
+        <transition name="el-zoom-in-center" :duration="350">
+          <div v-if="boxType">
+            <p class="text-tips">你好，欢迎登录</p>
+            <el-form :model="loginForm">
+              <el-form-item prop="username">
+                <el-input
+                  type="text"
+                  placeholder="请输入用户名或手机号"
+                  v-model="loginForm.username"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="password" style="margin-top:-15px">
+                <el-input
+                  type="password"
+                  placeholder="请输入密码"
+                  v-model="loginForm.password"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-button class="m-btn sub select-none" @click="login" v-loading="isLoging">登录</el-button>
+              <p class="text-tips">
+                <a href @click.prevent="boxType = !boxType">没有账号？点击注册</a>
+              </p>
+            </el-form>
+          </div>
+        </transition>
+        <transition name="el-zoom-in-center" :duration="350">
+          <div v-if="!boxType">
+            <p class="text-tips">你好，欢迎注册</p>
+            <el-form :model="loginForm">
+              <el-form-item prop="username">
+                <el-input
+                  type="text"
+                  placeholder="请输入用户名或手机号"
+                  v-model="loginForm.username"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="password" style="margin-top:-15px">
+                <el-input
+                  type="password"
+                  placeholder="请输入密码"
+                  v-model="loginForm.password"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-button class="m-btn sub select-none" @click="register" v-loading="isLoging">注册</el-button>
+              <p class="text-tips">
+                <a href @click.prevent="boxType = !boxType">已有账号？点击登录</a>
+              </p>
+            </el-form>
+          </div>
+        </transition>
+        <div style="margin-top: 50px"></div>
+        <p class="text-tips">
+          <span class="footer-text">©make by Team 9</span>
+        </p>
       </div>
-      <transition name="el-zoom-in-center" :duration="350">
-        <div v-if="boxType">
-          <p class="text-tips">你好，欢迎登录</p>
-          <el-form :model="loginForm">
-            <el-form-item prop="username">
-              <el-input type="text" placeholder="请输入用户名或手机号" v-model="loginForm.username" clearable></el-input>
-            </el-form-item>
-            <el-form-item prop="password" style="margin-top:-15px">
-              <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" clearable></el-input>
-            </el-form-item>
-            <el-button class="m-btn sub select-none" @click="login" v-loading="isLoging">登录</el-button>
-            <p class="text-tips">
-              <a href @click.prevent="boxType = !boxType">没有账号？点击注册</a>
-            </p>
-          </el-form>
-        </div>
-      </transition>
-      <transition name="el-zoom-in-center" :duration="350">
-        <div v-if="!boxType">
-          <p class="text-tips">你好，欢迎注册</p>
-          <el-form :model="loginForm">
-            <el-form-item prop="username">
-              <el-input type="text" placeholder="请输入用户名或手机号" v-model="loginForm.username" clearable></el-input>
-            </el-form-item>
-            <el-form-item prop="password" style="margin-top:-15px">
-              <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" clearable></el-input>
-            </el-form-item>
-            <el-button class="m-btn sub select-none" @click="register" v-loading="isLoging">注册</el-button>
-            <p class="text-tips">
-              <a href @click.prevent="boxType = !boxType">已有账号？点击登录</a>
-            </p>
-          </el-form>
-        </div>
-      </transition>
-      <div style="margin-top: 50px"></div>
-      <p class="text-tips">
-        <span class="footer-text">©make by Team 9</span>
-      </p>
     </div>
   </div>
 </template>
@@ -140,7 +163,7 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #f4f5f5;
+  /* background: #f4f5f5; */
   display: flex;
   justify-content: center;
   align-items: center;
