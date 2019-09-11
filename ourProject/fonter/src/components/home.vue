@@ -43,15 +43,15 @@
           style="height:734px"
         >
           <el-menu-item index="0">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-s-home"></i>
             <span slot="title">主页</span>
           </el-menu-item>
           <el-menu-item index="1">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-s-marketing"></i>
             <span slot="title">爬虫功能</span>
           </el-menu-item>
           <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-s-data"></i>
             <span slot="title">数据标注</span>
           </el-menu-item>
           <el-menu-item index="3">
@@ -59,7 +59,7 @@
             <span slot="title">分类功能</span>
           </el-menu-item>
           <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
+            <i class="el-icon-cpu"></i>
             <span slot="title">算法展示</span>
           </el-menu-item>
         </el-menu>
