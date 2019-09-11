@@ -2,7 +2,7 @@
   <!-- <router-link to="/test">路由测试</router-link> -->
   <el-container>
     <!-- 顶部导航栏 -->
-    <el-header>
+    <el-header style="background-color: rgb(244, 245, 245);">
       <el-menu
         class="el-menu-demo navbar-style"
         mode="horizontal"
@@ -30,7 +30,7 @@
     </el-header>
 
     <!-- 左侧导航栏 -->
-    <el-container>
+    <el-container style="background-color: rgb(244, 245, 245);">
       <el-aside>
         <el-menu
           :default-active="active"
@@ -117,6 +117,9 @@ export default {
         this.active = command;
       } else {
         // 退出登录
+        this.$router.push({
+          path: "/login"
+        });
       }
     }
   }
@@ -142,11 +145,17 @@ export default {
 }
 .mainstyle1 {
   margin-left: -95px;
-  transition: margin-left 0.5s;
+  transition-property: margin-left;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  background-color: rgb(244, 245, 245);
 }
 .mainstyle2 {
   margin-left: -230px;
-  transition: margin-left 0.5s;
+  transition-property: margin-left;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  background-color: rgb(244, 245, 245);
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
