@@ -59,7 +59,7 @@ export default {
         return isLt2M;
       },
     goSort(){
-      alert("分类");
+      alert("分类2");
     }
     }
 }
