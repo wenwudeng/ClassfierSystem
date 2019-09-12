@@ -40,7 +40,7 @@
               <el-form-item prop="username">
                 <el-input
                   type="text"
-                  placeholder="请输入用户名或手机号"
+                  placeholder="请输入手机号"
                   v-model="loginForm.username"
                   clearable
                 ></el-input>
@@ -66,7 +66,7 @@
                   <el-input type="text" placeholder="验证码" v-model="loginForm.verification"></el-input>
                 </el-col>
                 <el-col :span="9" style="margin-left:10px">
-                  <el-button type="primary">发送验证码</el-button>
+                  <el-button type="primary" @click="sendVerification">发送验证码</el-button>
                 </el-col>
               </el-form-item>
 
@@ -116,7 +116,6 @@ export default {
         })
         .then(response => {
           if (response.data.errno === 200) {
-            console.log(response.data.role)
             this.$message.success(response.data.msg);
             this.$router.push({
               path: "/home",
@@ -149,6 +148,19 @@ export default {
             });
           } else {
             this.$message.error(response.data.msg);
+          }
+          this.isLoging = false;
+        })
+        .catch(error => {});
+    },
+    sendVerification() {
+      this.$axios
+        .post("/sendmessage/", {
+          username: this.loginForm.username
+        })
+        .then(response => {
+          if (response.data.errno === 200) {
+            this.$message.success(response.data.msg);
           }
           this.isLoging = false;
         })

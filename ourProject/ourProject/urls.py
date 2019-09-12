@@ -8,6 +8,7 @@ urlpatterns = [
     path('data/', views.DataTest),
     path('login/', views.login),
     path('register/', views.register),
+    path('sendmessage/', views.sendmessage),
 
     # 数据库增删改查示例
     path('insertPerson/', views.insertPerson),

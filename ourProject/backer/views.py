@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import random
+from . import zhenzismsclient as smsclient
 
 from .models import *
 
@@ -9,6 +10,21 @@ from .models import *
 def DataTest(request):
     print("===========")
     return HttpResponse(['后台列表数据1', '后台列表数据2'])
+
+num = ''
+@csrf_exempt
+def sendmessage(request):
+    username = json.load(request).get('username')
+
+    client = smsclient.ZhenziSmsClient("https://sms_developer.zhenzikj.com", "102561",
+                                       "3d8791f5-8cfa-4468-b9e7-13cb5b3f0ef8")
+    global num
+    num = str(random.randint(0, 9999))
+    client.send(username, '您的验证码为：' + num)
+    data = {}
+    data['errno'] = 200
+    data['msg'] = '发送成功'
+    return JsonResponse(data)
 
 
 @csrf_exempt
@@ -35,8 +51,14 @@ def login(request):
 def register(request):
     form = json.load(request)
     form = form.get('form')
-    print(form)
     data = {}
+
+    global num
+    if(num != form.get('verification')):
+        data['errno'] = 405
+        data['msg'] = '验证码错误'
+        return JsonResponse(data)
+
     # 如果数据库没有，则user为None
     user = User.objects.filter(username=form.get('username')).first()
 
