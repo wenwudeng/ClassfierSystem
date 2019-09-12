@@ -2,9 +2,9 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import random
+from . import zhenzismsclient as smsclient
 
 from .models import *
-from .service import reptiles
 
 
 def DataTest(request):
@@ -12,18 +12,37 @@ def DataTest(request):
     return HttpResponse(['后台列表数据1', '后台列表数据2'])
 
 
+num = ''
+
+
+@csrf_exempt
+def sendmessage(request):
+    username = json.load(request).get('username')
+
+    client = smsclient.ZhenziSmsClient("https://sms_developer.zhenzikj.com", "102561",
+                                       "3d8791f5-8cfa-4468-b9e7-13cb5b3f0ef8")
+    global num
+    num = str(random.randint(0, 9999))
+    client.send(username, '您的验证码为：' + num)
+    data = {}
+    data['errno'] = 200
+    data['msg'] = '发送成功'
+    return JsonResponse(data)
+
+
 @csrf_exempt
 def login(request):
     # request是WSGIRequest类型
-    user = json.load(request)
-    username = user.get('username')
-    password = user.get('password')
+    form = json.load(request)
+    form = form.get('form')
     data = {}
     # 如果数据库没有，则user为None
-    user = User.objects.filter(username=username, password=password).first()
+    user = User.objects.filter(username=form.get('username'), password=form.get('password')).first()
+    print(user)
     if (user is not None):
         data['errno'] = 200
         data['msg'] = '登录成功'
+        data['role'] = user.type
     else:
         data['errno'] = 405
         data['msg'] = '账号或密码错误'
@@ -33,21 +52,29 @@ def login(request):
 
 @csrf_exempt
 def register(request):
-    user = json.load(request)
-    username = user.get('username')
-    password = user.get('password')
+    form = json.load(request)
+    form = form.get('form')
     data = {}
+
     # 如果数据库没有，则user为None
-    user = User.objects.filter(username=username).first()
-    print(user)
+    user = User.objects.filter(username=form.get('username')).first()
     if (user is not None):
         data['errno'] = 405
         data['msg'] = '用户名或手机号已经注册'
         return JsonResponse(data)
 
+    global num
+    if (num != form.get('verification')):
+        data['errno'] = 405
+        data['msg'] = '验证码错误'
+        return JsonResponse(data)
+    # 验证码置空
+    num = ''
+
     user = User()
-    user.username = username
-    user.password = password
+    user.username = form.get('username')
+    user.password = form.get('password')
+    user.type = form.get('role')
     user.save()
 
     data['errno'] = 200
@@ -95,16 +122,3 @@ def listPerson(request):
 
     # 可以使用JsonResponse返回json数据到前端
     return HttpResponse("查询成功")
-
-
-# 爬虫
-@csrf_exempt
-def reptile(request):
-    result = []
-    date = json.load(request)
-    url_value = int(date.get('url_value'))
-    word = date.get('word')
-    img_local = reptiles.run(url_value, word)
-    data = {"img_local": img_local}
-    print(data)
-    return JsonResponse(data)
