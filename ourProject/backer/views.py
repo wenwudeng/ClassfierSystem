@@ -14,15 +14,16 @@ def DataTest(request):
 @csrf_exempt
 def login(request):
     # request是WSGIRequest类型
-    user = json.load(request)
-    username = user.get('username')
-    password = user.get('password')
+    form = json.load(request)
+    form = form.get('form')
     data = {}
     # 如果数据库没有，则user为None
-    user = User.objects.filter(username=username, password=password).first()
+    user = User.objects.filter(username=form.get('username'), password=form.get('password')).first()
+    print(user)
     if (user is not None):
         data['errno'] = 200
         data['msg'] = '登录成功'
+        data['role'] = user.type
     else:
         data['errno'] = 405
         data['msg'] = '账号或密码错误'
@@ -32,21 +33,22 @@ def login(request):
 
 @csrf_exempt
 def register(request):
-    user = json.load(request)
-    username = user.get('username')
-    password = user.get('password')
+    form = json.load(request)
+    form = form.get('form')
+    print(form)
     data = {}
     # 如果数据库没有，则user为None
-    user = User.objects.filter(username=username).first()
-    print(user)
+    user = User.objects.filter(username=form.get('username')).first()
+
     if (user is not None):
         data['errno'] = 405
         data['msg'] = '用户名或手机号已经注册'
         return JsonResponse(data)
 
     user = User()
-    user.username = username
-    user.password = password
+    user.username = form.get('username')
+    user.password = form.get('password')
+    user.type = form.get('role')
     user.save()
 
     data['errno'] = 200

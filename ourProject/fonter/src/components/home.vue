@@ -46,19 +46,19 @@
             <i class="el-icon-s-home"></i>
             <span slot="title">主页</span>
           </el-menu-item>
-          <el-menu-item index="1">
+          <el-menu-item index="1" v-if="this.role=='admin' || this.role=='reptile'">
             <i class="el-icon-s-marketing"></i>
             <span slot="title">爬虫功能</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="2" v-if="this.role=='admin' || this.role=='data'">
             <i class="el-icon-s-data"></i>
             <span slot="title">数据标注</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="3" v-if="this.role=='admin' || this.role=='classify'">
             <i class="el-icon-document"></i>
             <span slot="title">分类功能</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="4" v-if="this.role=='admin' || this.role=='algorithm'">
             <i class="el-icon-cpu"></i>
             <span slot="title">算法展示</span>
           </el-menu-item>
@@ -95,8 +95,12 @@ export default {
     return {
       isCollapse: false,
       mainstyle: "mainstyle1",
-      active: "0"
+      active: "0",
+      role: ""
     };
+  },
+  created() {
+    this.role = this.$route.query.role;
   },
   methods: {
     collapse() {

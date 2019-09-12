@@ -23,7 +23,7 @@
                   type="password"
                   placeholder="请输入密码"
                   v-model="loginForm.password"
-                  clearable
+                  show-password
                 ></el-input>
               </el-form-item>
               <el-button class="m-btn sub select-none" @click="login" v-loading="isLoging">登录</el-button>
@@ -50,9 +50,26 @@
                   type="password"
                   placeholder="请输入密码"
                   v-model="loginForm.password"
-                  clearable
+                  show-password
                 ></el-input>
               </el-form-item>
+              <el-form-item prop="role" style="margin-top:-15px;">
+                <el-select v-model="loginForm.role" style="width:300px" placeholder="请选择角色">
+                  <el-option label="爬虫分析员" value="reptile"></el-option>
+                  <el-option label="数据标注员" value="data"></el-option>
+                  <el-option label="图像分类员" value="classify"></el-option>
+                  <el-option label="算法分析员" value="algorithm"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item prop="verification" style="margin-top:-15px;">
+                <el-col :span="14">
+                  <el-input type="text" placeholder="验证码" v-model="loginForm.verification"></el-input>
+                </el-col>
+                <el-col :span="9" style="margin-left:10px">
+                  <el-button type="primary">发送验证码</el-button>
+                </el-col>
+              </el-form-item>
+
               <el-button class="m-btn sub select-none" @click="register" v-loading="isLoging">注册</el-button>
               <p class="text-tips">
                 <a href @click.prevent="boxType = !boxType">已有账号？点击登录</a>
@@ -76,7 +93,9 @@ export default {
     return {
       loginForm: {
         username: "admin",
-        password: "123"
+        password: "123",
+        verification: "",
+        role: ""
       },
       isLoging: false,
       // boxType为true显示登录，false显示注册界面
@@ -93,14 +112,17 @@ export default {
 
       this.$axios
         .post("/login/", {
-          username: this.loginForm.username,
-          password: this.loginForm.password
+          form: this.loginForm
         })
         .then(response => {
           if (response.data.errno === 200) {
+            console.log(response.data.role)
             this.$message.success(response.data.msg);
             this.$router.push({
-              path: "/home"
+              path: "/home",
+              query: {
+                role: response.data.role
+              }
             });
           } else {
             this.$message.error(response.data.msg);
@@ -117,8 +139,7 @@ export default {
 
       this.$axios
         .post("/register/", {
-          username: this.loginForm.username,
-          password: this.loginForm.password
+          form: this.loginForm
         })
         .then(response => {
           if (response.data.errno === 200) {
