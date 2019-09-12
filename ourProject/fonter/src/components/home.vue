@@ -14,6 +14,9 @@
         active-text-color="rgb(18,175,227)"
         style="height:794px"
       >
+        <center>
+          <img src="@/assets/logo.png" style="margin:1px 0px -2px 0px;width:50px;height:50px;" />
+        </center>
         <el-menu-item index="0">
           <i class="el-icon-s-home"></i>
           <span slot="title">主页</span>
@@ -40,18 +43,18 @@
 
     <el-container :class="mainstyle">
       <!-- 顶部导航栏 -->
-      <el-header style="background-color: rgb(244, 245, 245); height:56px">
+      <el-header style="background-color: rgb(244, 245, 245); height:54px">
         <el-menu
           class="el-menu-demo navbar-style"
           mode="horizontal"
           background-color="rgb(18,175,227)"
           text-color="#fff"
           active-text-color="#ffd04b"
-          style="margin: 0px -20px 0px -20px !important;height:56px;"
+          style="margin: 0px -20px 0px -20px !important;height:54px;"
         >
-          <el-menu-item @click="collapse" style="height:56px;">
-            <div style="width:24px;height:56px;">
-              <img src="@/assets/collapse.png" style="width:20px;height:20px;margin-top:-5px;" />
+          <el-menu-item @click="collapse" style="height:54px;">
+            <div style="width:24px;height:52px;">
+              <img src="@/assets/collapse.png" style="width:20px;height:20px;margin-top:-10px;" />
               <!-- <i class="el-icon-s-operation" ></i> -->
             </div>
           </el-menu-item>
