@@ -13,7 +13,18 @@ class User(models.Model):
         db_table = "T_User"
 
 
-# 创建person表
+# 创建图片表
+class Image(models.Model):
+    id = models.AutoField(primary_key=True)  # 键
+    path = models.CharField(max_length=100)  # 图片路径
+    isTrue = models.BooleanField(default=True)  # Boolean判断,
+
+    # 修改表名
+    class Meta:
+        db_table = "T_Image"
+
+
+# 创建person表，用于测试
 class Person(models.Model):
     id = models.AutoField(primary_key=True)
     p_name = models.CharField(max_length=20)
