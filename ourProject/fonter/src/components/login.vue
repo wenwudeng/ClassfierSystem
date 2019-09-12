@@ -143,9 +143,7 @@ export default {
         .then(response => {
           if (response.data.errno === 200) {
             this.$message.success(response.data.msg);
-            this.$router.push({
-              path: "/login"
-            });
+            this.boxType = true
           } else {
             this.$message.error(response.data.msg);
           }

@@ -11,7 +11,10 @@ def DataTest(request):
     print("===========")
     return HttpResponse(['后台列表数据1', '后台列表数据2'])
 
+
 num = ''
+
+
 @csrf_exempt
 def sendmessage(request):
     username = json.load(request).get('username')
@@ -53,19 +56,20 @@ def register(request):
     form = form.get('form')
     data = {}
 
-    global num
-    if(num != form.get('verification')):
-        data['errno'] = 405
-        data['msg'] = '验证码错误'
-        return JsonResponse(data)
-
     # 如果数据库没有，则user为None
     user = User.objects.filter(username=form.get('username')).first()
-
     if (user is not None):
         data['errno'] = 405
         data['msg'] = '用户名或手机号已经注册'
         return JsonResponse(data)
+
+    global num
+    if (num != form.get('verification')):
+        data['errno'] = 405
+        data['msg'] = '验证码错误'
+        return JsonResponse(data)
+    # 验证码置空
+    num = ''
 
     user = User()
     user.username = form.get('username')
