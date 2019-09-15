@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', views.login),
     path('register/', views.register),
     path('sendmessage/', views.sendmessage),
+    path('reptile/', views.reptile),
 
     # 数据库增删改查示例
     path('insertPerson/', views.insertPerson),
