@@ -1,8 +1,8 @@
 <template>
   <div>
-    <vue-particles style="background:#f4f5f5;position:fixed;width:100%;height:100%;"></vue-particles>
+    <vue-particles style="background:rgb(236, 240, 245);position:fixed;width:100%;height:100%;"></vue-particles>
     <div class="fullscreen">
-      <div class="login-box" style="margin-top:-10px">
+      <div class="login-box" style="margin-top:10px">
         <div style="text-align: center">
           <img src="../assets/logo.png" alt class="logo" />
         </div>
