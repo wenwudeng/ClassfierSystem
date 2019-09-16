@@ -48,20 +48,19 @@ export default {
   },
 
   created() {
-    // this.$axios
-    //   .post('/reptile/', {
-    //     url_value: 1,
-    //     word: "羊"
-    //   })
-    //   .then(response => {
-    //     var temp = [];
-    //     temp =  response.data.img_local;
-    //     for(var i = 0; i < temp.length; i++){
-    //       console.log(require("../../assets/img/" + temp[i]));
-    //       this.img_list.push(require("../../assets/img/" + temp[i]));
-    //     }
-    //   })
-    //   .catch(error => {});
+    this.$axios
+      .post('/get_img/', {
+      })
+      .then(response => {
+        var temp = [];
+        temp =  response.data.img_local;
+        console.log(temp);
+        for(var i = 0; i < temp.length; i++){
+          console.log(require("../../assets/img/" + temp[i]));
+          this.img_list.push(require("../../assets/img/" + temp[i]));
+        }
+      })
+      .catch(error => {});
   }
 }
 </script>

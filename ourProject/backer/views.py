@@ -158,8 +158,17 @@ def reptile(request):
     return JsonResponse(data)
 
 
+# 获取图片
+@csrf_exempt
 def get_img(request):
-    img_local = Image().objects.all()
-    length = img_local.count()
-
+    images = Image.objects.all()
+    img_local = []
+    for item in images:
+        img_local.append(item.path)
+    # data = json.loads(img_local)
+    length = len(img_local)
+    img_local = img_local[length - 5: length]
+    print(img_local)
+    data = {"img_local": img_local}
+    return JsonResponse(data)
     pass
