@@ -52,9 +52,8 @@ def write_file(img_url_list, img_name):
     flag = 0
     cur_path = os.path.abspath(os.path.dirname(__file__)).replace('backer\\service', '')
     for img in img_url_list:
-        file_name = img_name[flag]
+        file_name = "img" + str(flag)
         flag += 1
-        file_name = get_new_name(file_name)
         get_name = file_name + str('.png')
         database_name = str('fonter\\src\\assets\\img\\') + file_name + str('.png')
         file_name = cur_path + str('fonter\\src\\assets\\img\\') + file_name + str('.png')

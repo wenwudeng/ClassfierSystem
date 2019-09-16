@@ -159,4 +159,7 @@ def reptile(request):
 
 
 def get_img(request):
+    img_local = Image().objects.all()
+    length = img_local.count()
+
     pass
