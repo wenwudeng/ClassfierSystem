@@ -7,13 +7,14 @@ import glob  # glob 文件通配符模块
 # 此程序作用于进行简单的预测，取5个图片来进行预测，如果有多数据预测，按照cnn.py中，读取数据的方式即可
 
 # 测试的数据集路径
-path = 'C:\\Users\\Lin\\Desktop\\testdata\\'
+# path = 'C:\\Users\\Lin\\Desktop\\testdata\\'
+path = './sheep/testdata/animal'
 
 # 模型路径
-modelpath = '###' + 'fc_model.ckpt-26.meta'
+modelpath ='./sheep/model/fc_model.ckpt-8.meta'
 
 # checkpoint路径
-checkpointpath = '###'
+checkpointpath = './sheep/model/'
 
 # 类别代表字典
 flower_dict = {0: 'sheep', 1: 'dog'}
