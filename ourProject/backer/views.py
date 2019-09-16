@@ -167,7 +167,7 @@ def get_img(request):
         img_local.append(item.path)
     # data = json.loads(img_local)
     length = len(img_local)
-    img_local = img_local[length - 5: length]
+    img_local = img_local[length - 8: length]
     print(img_local)
     data = {"img_local": img_local}
     return JsonResponse(data)

@@ -1,16 +1,31 @@
 <template>
   <div>
-    <div>爬虫</div>
     <div>
-      <select v-model="url_value">
-        <option value="1" default>百度</option>
-        <option value="2">搜狗</option>
-      </select>
-      <input v-model="word"/>
-      <button @click="reptile">爬虫</button>
+      <el-select v-model="url_value" placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+         </el-option>
+      </el-select>
+      <el-input v-model="word" placeholder="请输入爬取的内容" style="width: 200px"></el-input>
+      <el-button type="primary" @click="reptile">爬虫</el-button>
     </div>
-    <div v-for="img in this.img_list" :key="img">
-      <img :src="img">
+    <div clas="outer" style="text-align: center">
+       <!--图片显示-->
+      <el-row :gutter="20">
+        <el-col :span="6" v-for="img in this.img_list" :key="img">
+          <el-image
+            style="width: 300px;height:250px;margin-top: 20px"
+            :src='img'
+          >
+          </el-image>
+        </el-col>
+      </el-row>
+      <!-- <div v-for="img in this.img_list" :key="img">
+        <img :src="img">
+      </div> -->
     </div>
   </div>
 </template>
@@ -23,6 +38,14 @@ export default {
       img_list: [],
       word: '',
       url_value: '',
+      options: [{
+          value: '1',
+          label: '百度'
+        }, {
+          value: '2',
+          label: '搜狗'
+        }],
+        value: ''
     };
   },
 
