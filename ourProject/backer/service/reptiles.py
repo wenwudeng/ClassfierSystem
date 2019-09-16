@@ -2,6 +2,8 @@ import requests
 import re
 import os
 
+from ..models import Image
+
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en',
@@ -37,6 +39,13 @@ def get_new_name(file_name):
     return file_name
 
 
+def write_database(file_name):
+    image = Image()
+    image.path = file_name
+    image.save()
+    pass
+
+
 def write_file(img_url_list, img_name):
     img_local = []
     get_name = []
@@ -49,6 +58,7 @@ def write_file(img_url_list, img_name):
         get_name = file_name + str('.png')
         file_name = cur_path + str('fonter\\src\\assets\\img\\') + file_name + str('.png')
         img_local.append(get_name)
+        write_database(file_name)
         with open(file_name, "wb") as f:
             f.write(requests.get(img).content)
     return img_local

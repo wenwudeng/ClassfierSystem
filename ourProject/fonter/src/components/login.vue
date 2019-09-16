@@ -105,6 +105,7 @@ export default {
 
   methods: {
     login() {
+      console.log(this.loginForm);
       if (!this.loginForm.username || !this.loginForm.password) {
         return this.$message.warning("用户名和密码不能为空");
       }

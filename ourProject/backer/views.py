@@ -2,6 +2,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import random
+
+from .service import reptiles
 from . import zhenzismsclient as smsclient
 
 from .models import *
@@ -133,3 +135,17 @@ def listPerson(request):
 
     # 可以使用JsonResponse返回json数据到前端
     return HttpResponse("查询成功")
+
+
+# 爬虫
+@csrf_exempt
+def reptile(request):
+    result = []
+    date = json.load(request)
+    print(date)
+    url_value = int(date.get('url_value'))
+    word = date.get('word')
+    img_local = reptiles.run(url_value, word)
+    data = {"img_local": img_local}
+    print(data)
+    return JsonResponse(data)
