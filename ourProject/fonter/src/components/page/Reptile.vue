@@ -58,12 +58,7 @@ export default {
         word: this.word
       })
       .then(response => {
-        var temp = [];
-        temp =  response.data.img_local;
-        for(var i = 0; i < temp.length; i++){
-          console.log(require("../../assets/img/" + temp[i]));
-          this.img_list.push(require("../../assets/img/" + temp[i]));
-        }
+
       })
       .catch(error => {});
 

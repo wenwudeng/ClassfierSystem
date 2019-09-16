@@ -49,8 +49,10 @@ def write_database(file_name):
 def write_file(img_url_list, img_name):
     img_local = []
     get_name = []
-    flag = 0
+    image = Image.objects.all()
+    flag = int((re.findall(r'\d+', str(image[len(image) - 1].path)))[0])   # 获取最后一个数值
     cur_path = os.path.abspath(os.path.dirname(__file__)).replace('backer\\service', '')
+
     for img in img_url_list:
         file_name = "img" + str(flag)
         flag += 1
@@ -104,4 +106,5 @@ def run(url_value, word):
 
 
 if __name__ == "__main__":
-    run(2, "羊")
+    images = Image.objects.all()[-1]
+    print(images)

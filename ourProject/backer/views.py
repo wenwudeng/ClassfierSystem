@@ -152,8 +152,8 @@ def reptile(request):
     print(date)
     url_value = int(date.get('url_value'))
     word = date.get('word')
-    img_local = reptiles.run(url_value, word)
-    data = {"img_local": img_local}
+    reptiles.run(url_value, word)
+    data = {}
     print(data)
     return JsonResponse(data)
 
@@ -162,13 +162,13 @@ def reptile(request):
 @csrf_exempt
 def get_img(request):
     images = Image.objects.all()
+    re.findall(r'\d+', str(images[len(images) - 1].path))
     img_local = []
     for item in images:
         img_local.append(item.path)
     # data = json.loads(img_local)
     length = len(img_local)
     img_local = img_local[length - 8: length]
-    print(img_local)
     data = {"img_local": img_local}
     return JsonResponse(data)
     pass
