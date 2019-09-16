@@ -138,3 +138,7 @@ def reptile(request):
     data = {"img_local": img_local}
     print(data)
     return JsonResponse(data)
+
+
+def get_img(request):
+    pass

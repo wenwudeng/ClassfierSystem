@@ -56,9 +56,10 @@ def write_file(img_url_list, img_name):
         flag += 1
         file_name = get_new_name(file_name)
         get_name = file_name + str('.png')
+        database_name = str('fonter\\src\\assets\\img\\') + file_name + str('.png')
         file_name = cur_path + str('fonter\\src\\assets\\img\\') + file_name + str('.png')
         img_local.append(get_name)
-        write_database(file_name)
+        write_database(database_name)
         with open(file_name, "wb") as f:
             f.write(requests.get(img).content)
     return img_local
