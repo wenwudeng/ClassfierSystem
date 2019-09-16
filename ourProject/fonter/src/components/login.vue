@@ -38,12 +38,7 @@
             <p class="text-tips">你好，欢迎注册</p>
             <el-form :model="loginForm">
               <el-form-item prop="username">
-                <el-input
-                  type="text"
-                  placeholder="请输入手机号"
-                  v-model="loginForm.username"
-                  clearable
-                ></el-input>
+                <el-input type="text" placeholder="请输入手机号" v-model="loginForm.username" clearable></el-input>
               </el-form-item>
               <el-form-item prop="password" style="margin-top:-15px">
                 <el-input
@@ -144,7 +139,7 @@ export default {
         .then(response => {
           if (response.data.errno === 200) {
             this.$message.success(response.data.msg);
-            this.boxType = true
+            this.boxType = true;
           } else {
             this.$message.error(response.data.msg);
           }
@@ -160,6 +155,9 @@ export default {
         .then(response => {
           if (response.data.errno === 200) {
             this.$message.success(response.data.msg);
+          } else {
+            console.log("skalfsdanf", response)
+            this.$message.error(response.data.msg);
           }
           this.isLoging = false;
         })
