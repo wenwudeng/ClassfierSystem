@@ -24,21 +24,6 @@ def get_url(url_value, word):
     return img_url
 
 
-def get_new_name(file_name):
-    file_name = file_name.replace('<', '')
-    file_name = file_name.replace('>', '')
-    file_name = file_name.replace('《', '')
-    file_name = file_name.replace('》', '')
-    file_name = file_name.replace('\\', '')
-    file_name = file_name.replace('?', '')
-    file_name = file_name.replace('|', '')
-    file_name = file_name.replace('!', '')
-    file_name = file_name.replace(':', '')
-    if file_name == '':
-        file_name = 'temp'
-    return file_name
-
-
 def write_database(file_name):
     image = Image()
     image.path = file_name
@@ -58,8 +43,6 @@ def write_file(img_url_list, img_name):
         flag += 1
         get_name = file_name + str('.png')
         write_database(get_name)
-        print()
-        database_name = str('fonter\\src\\assets\\img\\') + file_name + str('.png')
         file_name = cur_path + str('fonter\\src\\assets\\img\\') + file_name + str('.png')
         img_local.append(get_name)
 
