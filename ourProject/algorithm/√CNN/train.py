@@ -148,10 +148,10 @@ def inference(input_tensor, train, regularizer):
     # -----------------------第七层----------------------------
     with tf.variable_scope('layer11-fc3'):
         # 同上，不过参数的有变化，根据卷积计算和通道数量的变化，设置对应的参数
-        fc3_weights = tf.get_variable("weight", [512, 5],
+        fc3_weights = tf.get_variable("weight", [512, 2],
                                       initializer=tf.truncated_normal_initializer(stddev=0.1))
         if regularizer != None: tf.add_to_collection('losses', regularizer(fc3_weights))
-        fc3_biases = tf.get_variable("bias", [5], initializer=tf.constant_initializer(0.1))
+        fc3_biases = tf.get_variable("bias", [2], initializer=tf.constant_initializer(0.1))
         logit = tf.matmul(fc2, fc3_weights) + fc3_biases  # matmul矩阵相乘
     # 返回最后的计算结果
     return logit
