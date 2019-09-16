@@ -34,3 +34,5 @@ class Person(models.Model):
     # 修改表名
     class Meta:
         db_table = "Person"
+
+

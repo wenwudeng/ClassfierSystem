@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import random
+import re
 
 from .service import reptiles
 from . import zhenzismsclient as smsclient
@@ -16,17 +17,34 @@ def DataTest(request):
 
 num = ''
 
+def code(n=6, alpha=True):
+    s = '' # 创建字符串变量,存储生成的验证码
+    for i in range(n):  # 通过for循环控制验证码位数
+        num = random.randint(0, 9)  # 生成随机数字0-9
+        if alpha: # 需要字母验证码,不用传参,如果不需要字母的,关键字alpha=False
+            upper_alpha = chr(random.randint(65, 90))
+            lower_alpha = chr(random.randint(97, 122))
+            num = random.choice([num, upper_alpha, lower_alpha])
+        s = s + str(num)
+    return s
+
 
 @csrf_exempt
 def sendmessage(request):
+    data = {}
     username = json.load(request).get('username')
+
+    ret = re.match(r"^1[35678]\d{9}$", username)
+    if ret is None:
+        data['errno'] = 405
+        data['msg'] = '请输入正确的手机号'
+        return JsonResponse(data)
 
     client = smsclient.ZhenziSmsClient("https://sms_developer.zhenzikj.com", "102561",
                                        "3d8791f5-8cfa-4468-b9e7-13cb5b3f0ef8")
     global num
-    num = str(random.randint(0, 9999))
+    num = str(code(6, False))
     client.send(username, '您的验证码为：' + num)
-    data = {}
     data['errno'] = 200
     data['msg'] = '发送成功'
     return JsonResponse(data)
