@@ -19,10 +19,11 @@
         start-placeholder="开始日期"
         end-placeholder="结束日期">
       </el-date-picker>
+
       <el-button type="primary" @click="reptile">爬虫</el-button>
        <el-button type="primary" @click="test">test</el-button>
     </div>
-    
+
     <div clas="outer" style="text-align: center">
        <!--图片显示-->
       <el-row :gutter="20">
@@ -101,7 +102,7 @@ export default {
       .catch(error => {});
   },
 
-  
+
 }
 </script>
 
