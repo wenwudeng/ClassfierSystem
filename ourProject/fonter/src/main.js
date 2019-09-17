@@ -9,9 +9,10 @@ import '@/assets/css/main.css'
 import '@/assets/css/scrollbar.css'
 import VueParticles from 'vue-particles'
 
-import ECharts from 'vue-echarts'
-import 'echarts/lib/chart/line'
-Vue.component('chart', ECharts)
+import VCharts from 'v-charts'
+
+
+Vue.use(VCharts)
 
 Vue.use(VueParticles)
 

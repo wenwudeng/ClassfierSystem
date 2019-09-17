@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="text-align: center;margin-top: 30px">
     <br>
     <div>
       <el-select v-model="url_value" placeholder="请选择">
