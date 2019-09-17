@@ -18,6 +18,6 @@ urlpatterns = [
     path('listPerson/', views.listPerson),
 
     # 数据标注
-    path('getImage/',views.get_img),
+    path('getImage/',views.getDataUrl),
     path('transData/',views.saveTransData)
 ]

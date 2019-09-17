@@ -157,9 +157,12 @@ def reptile(request):
     print(data)
     return JsonResponse(data)
 
-# 前端获取数据库图片地址
 
+# 获取图片
+@csrf_exempt
+def get_img(request):
     images = Image.objects.all()
+    re.findall(r'\d+', str(images[len(images) - 1].path))
     img_local = []
     for item in images:
         img_local.append(item.path)
@@ -167,7 +170,28 @@ def reptile(request):
     length = len(img_local)
     img_local = img_local[length - 8: length]
     data = {"img_local": img_local}
+    return JsonResponse(data)
+    pass
 
+
+
+
+# 数据标注
+# 前端获取数据库图片地址
+@csrf_exempt
+def getDataUrl(request):
+    imgUrls = []
+    img = Image.objects.all().filter(isTrue=False)
+    img1 = random.sample(list(img),8)
+    print(img1)
+    count = 0
+    for x in img1 :
+        count += 1
+        imgUrls.append({"img":x.path,"isTrue":x.isTrue,"id":x.id})
+    data = {"img": imgUrls}
+    return JsonResponse(data)
+
+# 数据标注
 # 修改数据库标记值
 @csrf_exempt
 def saveTransData(request):
