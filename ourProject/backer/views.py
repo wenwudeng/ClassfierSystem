@@ -167,6 +167,7 @@ def reptile(request):
     time_value = date.get('time_value')
     reptiles.run(url_value, word, time_value)
     data = {}
+
     print(data)
     return JsonResponse(data)
 
