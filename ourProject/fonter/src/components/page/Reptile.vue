@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div style="text-align: center;margin-top: 70px">
       <el-select v-model="url_value" placeholder="请选择">
         <el-option
           v-for="item in options"

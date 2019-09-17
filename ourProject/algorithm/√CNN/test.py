@@ -8,7 +8,7 @@ import glob  # glob 文件通配符模块
 
 # 测试的数据集路径
 # path = 'C:\\Users\\Lin\\Desktop\\testdata\\'
-path = './sheep/testdata/animal'
+path = './sheep/testdata/'
 
 # 模型路径
 modelpath ='./sheep/model/fc_model.ckpt-8.meta'

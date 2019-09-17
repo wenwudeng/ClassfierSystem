@@ -29,7 +29,7 @@ image_height = 128
 image_width = 100
 
 train_feat_path = 'train/'
-test_feat_path = 'test/'
+test_feat_path = 'test2/'
 model_path = 'model/'
 
 
@@ -150,6 +150,33 @@ def train_and_test():
     print('准确率是： %f' % rate)
     print('耗时是 : %f' % (t1 - t0))
 
+
+def classify_algorithm():
+    t0 = time.time()
+    features = []
+    labels = []
+    correct_number = 0
+    total = 0
+    result_list = []
+    clf = joblib.load(model_path + 'model')
+    for feat_path in glob.glob(os.path.join(test_feat_path, 'sheep121.jpg.feat')):
+        total += 1
+        if platform.system() == 'Windows':
+            symbol = '\\'
+        else:
+            symbol = '/'
+        image_name = feat_path.split(symbol)[1].split('.feat')[0]
+        data_test = joblib.load(feat_path)
+        data_test_feat = data_test[:-1].reshape((1, -1)).astype(np.float64)
+        result = clf.predict(data_test_feat)
+        result_list.append(image_name + ' ' + label_map[int(result[0])] + '\n')
+        if int(result[0]) == int(data_test[-1]):
+            correct_number += 1
+    write_to_txt(result_list)
+    rate = float(correct_number) / total
+    t1 = time.time()
+    print('准确率是： %f' % rate)
+    print('耗时是 : %f' % (t1 - t0))
 
 def write_to_txt(list):
     with open('result.txt', 'w') as f:
