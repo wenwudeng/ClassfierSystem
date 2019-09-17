@@ -162,7 +162,6 @@ def reptile(request):
 @csrf_exempt
 def get_img(request):
     images = Image.objects.all()
-    re.findall(r'\d+', str(images[len(images) - 1].path))
     img_local = []
     for item in images:
         img_local.append(item.path)
