@@ -6,9 +6,9 @@ import numpy as np  # 多维数据处理模块
 import time
 
 # 数据集地址
-path = './sheep/'
+path = 'C:\\Users\\Lin\\Desktop\\sheep\\'
 # 模型保存地址
-model_path = './sheep/model/fc_model.ckpt'
+model_path = '.\\model\\fc_model.ckpt'
 
 # 将所有的图片resize成100*100
 w = 100
@@ -18,10 +18,13 @@ c = 3
 
 # 读取图片+数据处理
 def read_img(path):
+
+
     # os.listdir(path) 返回path指定的文件夹包含的文件或文件夹的名字的列表
     # os.path.isdir(path)判断path是否是目录
     # b = [x+x for x in list1 if x+x<15 ]  列表生成式,循环list1，当if为真时，将x+x加入列表b
-    cate = [path + x for x in os.listdir(path) if os.path.isdir(path + x)]
+    cate = [path + q for q in os.listdir(path) if os.path.isdir(path + q)]
+    print(cate)
     imgs = []
     labels = []
     for idx, folder in enumerate(cate):
@@ -39,12 +42,15 @@ def read_img(path):
             # 将图片的label加载到labels[]中，与上方的imgs索引对应
             labels.append(idx)
     # 将读取的图片和labels信息，转化为numpy结构的ndarr(N维数组对象（矩阵）)数据信息
+    print(np.asarray(imgs, np.float32).shape)
     return np.asarray(imgs, np.float32), np.asarray(labels, np.int32)
 
 
 # 调用读取图片的函数，得到图片和labels的数据集
+print(path)
+print(read_img(path))
 data, label = read_img(path)
-
+print(label)
 # 打乱顺序
 # 读取data矩阵的第一维数（图片的个数）
 num_example = data.shape[0]
@@ -169,8 +175,8 @@ logits_eval = tf.multiply(logits, b, name='logits_eval')  # b为1
 
 # 设置损失函数，作为模型训练优化的参考标准，loss越小，模型越优
 loss = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=y_)
-# 设置整体学习率为α为0.001
-train_op = tf.train.AdamOptimizer(learning_rate=0.001).minimize(loss)
+# 设置整体学习率为α为0.0001
+train_op = tf.train.AdamOptimizer(learning_rate=0.0001).minimize(loss)
 # 设置预测精度
 correct_prediction = tf.equal(tf.cast(tf.argmax(logits, 1), tf.int32), y_)
 acc = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
@@ -194,10 +200,10 @@ def minibatches(inputs=None, targets=None, batch_size=None, shuffle=False):
 
 
 # 迭代次数
-n_epoch = 10
+n_epoch = 40
 # 每次迭代输入的图片数据
-batch_size = 64
-saver = tf.train.Saver(max_to_keep=1)  # 可以指定保存的模型个数，利用max_to_keep
+batch_size = 32
+saver = tf.train.Saver(max_to_keep=1)  # 可以指定保存的模型个数
 with tf.Session() as sess:
     # 初始化全局参数
     sess.run(tf.global_variables_initializer())

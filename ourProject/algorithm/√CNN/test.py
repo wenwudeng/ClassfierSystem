@@ -5,14 +5,14 @@ import os  # os 处理文件和目录的模块
 import glob  # glob 文件通配符模块
 
 # 测试的数据集路径
-# path = 'C:\\Users\\Lin\\Desktop\\testdata\\'
-path = './sheep/testdata/'
+path = 'C:\\Users\\Lin\\Desktop\\testdata\\'
+# path = './sheep/testdata/'
 
 # 模型路径
-modelpath ='./sheep/model/fc_model.ckpt-8.meta'
+modelpath ='./model/fc_model.ckpt-38.meta'
 
 # checkpoint路径
-checkpointpath = './sheep/model/'
+checkpointpath = './model/'
 
 # 类别代表字典
 flower_dict = {0: 'sheep', 1: 'dog'}
