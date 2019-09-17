@@ -1,3 +1,5 @@
+from django.utils.datetime_safe import datetime
+
 import requests
 import re
 import os
@@ -31,65 +33,74 @@ def write_database(file_name):
     pass
 
 
-def write_file(img_url_list, img_name):
+def write_file(img_url_list, time_value, time_list):
     img_local = []
     get_name = []
+    print(time_value)
+    st = datetime.strptime(str(time_value[0]), "%Y-%m-%d")
+    et = datetime.strptime(str(time_value[1]), "%Y-%m-%d")
     image = Image.objects.all()
+    i = 0
     flag = 0
     if len(image) != 0:
         flag = int((re.findall(r'\d+', str(image[len(image) - 1].path)))[0])  # 获取最后一个数值
     cur_path = os.path.abspath(os.path.dirname(__file__)).replace('backer\\service', '')
 
     for img in img_url_list:
-        file_name = "img" + str(flag)
-        flag += 1
-        get_name = file_name + str('.png')
-        write_database(get_name)
-        file_name = cur_path + str('fonter\\src\\assets\\img\\') + file_name + str('.png')
-        img_local.append(get_name)
+        if st < datetime.strptime(time_list[i], "%Y-%m-%d") < et:
+            file_name = "img" + str(flag)
+            flag += 1
+            get_name = file_name + str('.png')
+            write_database(get_name)
+            file_name = cur_path + str('fonter\\src\\assets\\img\\') + file_name + str('.png')
+            img_local.append(get_name)
 
-        with open(file_name, "wb") as f:
-            f.write(requests.get(img).content)
+            with open(file_name, "wb") as f:
+                f.write(requests.get(img).content)
+        i += 1
+
     return img_local
 
 
 # 百度爬虫
-def get_baidu_img(url_value, word):
+def get_baidu_img(url_value, word, time_value):
     img_url = get_url(url_value, word)
     img_local = []
-    for i in range(1, 2):
+    time_list = []
+    for i in range(1, 10):
         img_url = img_url.replace('img_page', str(i * 30))
         response = requests.get(img_url, headers=headers)
         img_url_list = re.findall(r'"middleURL":"(.*?)"', response.text)
-        img_name = re.findall(r'"fromPageTitleEnc":"(.*?)"', response.text)
-        img_local = write_file(img_url_list, img_name)
-    return img_local
+        time_list = re.findall(r'"bdImgnewsDate":"(.*?) ', response.text)
+        print(time_list)
+        write_file(img_url_list, time_value, time_list)
 
 
 # 搜狗爬虫
-def get_sougou_img(url_value, word):
+def get_sougou_img(url_value, word, time_value):
     img_url = get_url(url_value, word)
     img_local = []
-    for i in range(1, 2):
+    time_list = []
+    for i in range(1, 10):
         img_url = img_url.replace('img_page', str(i * 48))
         response = requests.get(img_url, headers=headers)
         img_url_list = re.findall(r'"thumbUrl":"(.*?)"', response.text)
-        img_name = re.findall(r'"title":"(.*?)"', response.text)
-        img_local = write_file(img_url_list, img_name)
+        img_local = write_file(img_url_list, time_value, time_list)
     return img_local
 
 
-def run(url_value, word):
+def run(url_value, word, time_value):
     print(url_value, word)
     img_local = []
     if url_value == 1:
-        print('in')
-        img_local = get_baidu_img(url_value, word)
+        get_baidu_img(url_value, word, time_value)
     elif url_value == 2:
-        img_local = get_sougou_img(url_value, word)
+        get_sougou_img(url_value, word, time_value)
     return img_local
 
 
 if __name__ == "__main__":
-    images = Image.objects.all()[-1]
-    print(images)
+    start_time = '2017-11-12'
+    end_time = '2015-03-04'
+    dt = datetime.strptime(start_time, "%Y-%m-%d")
+    print(dt)

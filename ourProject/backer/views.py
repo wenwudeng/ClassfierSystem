@@ -1,4 +1,5 @@
 from django.http import HttpResponse, JsonResponse
+from django.utils.datetime_safe import datetime
 from django.views.decorators.csrf import csrf_exempt
 import json
 import random
@@ -152,7 +153,8 @@ def reptile(request):
     print(date)
     url_value = int(date.get('url_value'))
     word = date.get('word')
-    reptiles.run(url_value, word)
+    time_value = date.get('time_value')
+    reptiles.run(url_value, word, time_value)
     data = {}
     print(data)
     return JsonResponse(data)
@@ -171,3 +173,13 @@ def get_img(request):
     data = {"img_local": img_local}
     return JsonResponse(data)
     pass
+
+
+# 作为测试
+@csrf_exempt
+def test(request):
+    json_data = json.load(request)
+    time_list = json_data.get('time_value')
+    print(time_list[0])
+    print(datetime.strptime(str(time_list[0]), "%Y-%m-%d"))
+    return JsonResponse({})
