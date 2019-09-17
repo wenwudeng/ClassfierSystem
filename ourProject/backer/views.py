@@ -17,11 +17,12 @@ def DataTest(request):
 
 num = ''
 
+
 def code(n=6, alpha=True):
-    s = '' # 创建字符串变量,存储生成的验证码
+    s = ''  # 创建字符串变量,存储生成的验证码
     for i in range(n):  # 通过for循环控制验证码位数
         num = random.randint(0, 9)  # 生成随机数字0-9
-        if alpha: # 需要字母验证码,不用传参,如果不需要字母的,关键字alpha=False
+        if alpha:  # 需要字母验证码,不用传参,如果不需要字母的,关键字alpha=False
             upper_alpha = chr(random.randint(65, 90))
             lower_alpha = chr(random.randint(97, 122))
             num = random.choice([num, upper_alpha, lower_alpha])
@@ -75,6 +76,16 @@ def register(request):
     form = json.load(request)
     form = form.get('form')
     data = {}
+
+    if (form.get('role') == ''):
+        data['errno'] = 405
+        data['msg'] = '请选择角色'
+        return JsonResponse(data)
+
+    if (form.get('verification') == ''):
+        data['errno'] = 405
+        data['msg'] = '请输入验证码'
+        return JsonResponse(data)
 
     # 如果数据库没有，则user为None
     user = User.objects.filter(username=form.get('username')).first()
@@ -174,22 +185,21 @@ def get_img(request):
     pass
 
 
-
-
 # 数据标注
 # 前端获取数据库图片地址
 @csrf_exempt
 def getDataUrl(request):
     imgUrls = []
     img = Image.objects.all().filter(isTrue=False)
-    img1 = random.sample(list(img),8)
+    img1 = random.sample(list(img), 8)
     print(img1)
     count = 0
-    for x in img1 :
+    for x in img1:
         count += 1
-        imgUrls.append({"img":x.path,"isTrue":x.isTrue,"id":x.id})
+        imgUrls.append({"img": x.path, "isTrue": x.isTrue, "id": x.id})
     data = {"img": imgUrls}
     return JsonResponse(data)
+
 
 # 数据标注
 # 修改数据库标记值
@@ -199,10 +209,9 @@ def saveTransData(request):
     resultDict = data.get("result")
     try:
         for x in resultDict:
-            img = Image.objects.filter(id = x.get('id')).first()
+            img = Image.objects.filter(id=x.get('id')).first()
             img.isTrue = x.get('isTrue')
             img.save()
     except Exception as e:
         print(e)
-    return  HttpResponse("test")
-
+    return HttpResponse("test")
