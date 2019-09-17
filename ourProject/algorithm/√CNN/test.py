@@ -4,24 +4,21 @@ import numpy as np
 import os  # os 处理文件和目录的模块
 import glob  # glob 文件通配符模块
 
-# 此程序作用于进行简单的预测，取5个图片来进行预测，如果有多数据预测，按照cnn.py中，读取数据的方式即可
-
-# 测试的数据集路径
-# path = 'C:\\Users\\Lin\\Desktop\\testdata\\'
-path = './sheep/testdata/animal'
-
-# 模型路径
-modelpath ='./sheep/model/fc_model.ckpt-8.meta'
-
-# checkpoint路径
-checkpointpath = './sheep/model/'
-
+path = '.\\testdata\\'
 # 类别代表字典
 flower_dict = {0: 'sheep', 1: 'dog'}
 
 w = 100
 h = 100
 c = 3
+
+names = []
+
+# 读取所有的测试文件
+for a, b, c in os.walk(path):
+    for i in c:
+        print(i)
+        names.append(i)
 
 
 # 读取图片+数据处理
@@ -37,6 +34,8 @@ def read_img(path):
         for im in glob.glob(folder + '/*.jpg'):
             # 输出读取的图片的名称
             print('reading the images:%s' % (im))
+
+            names.append(im)
             # io.imread(im)读取单张RGB图片 skimage.io.imread(fname,as_grey=True)读取单张灰度图片
             # 读取的图片
             img = io.imread(im)
@@ -52,8 +51,8 @@ def read_img(path):
 # 调用读取图片的函数，得到图片和labels的数据集
 data = read_img(path)
 with tf.Session() as sess:
-    saver = tf.train.import_meta_graph(modelpath)
-    saver.restore(sess, tf.train.latest_checkpoint(checkpointpath))
+    saver = tf.train.import_meta_graph('.\\model\\fc_model.ckpt-4.meta')
+    saver.restore(sess, tf.train.latest_checkpoint('.\\model'))
     # sess：表示当前会话，之前保存的结果将被加载入这个会话
     # 设置每次预测的个数
     graph = tf.get_default_graph()
@@ -76,5 +75,21 @@ with tf.Session() as sess:
     output = []
     output = tf.argmax(classification_result, 1).eval()
     # print(output)
-    for i in range(len(output)):
-        print("第", i + 1, "张图预测:" + flower_dict[output[i]])
+
+    test_label = []
+    for name in names:
+        if list(name)[0] == 'd':
+            test_label.append(1)
+        if list(name)[0] == 's':
+            test_label.append(0)
+    print(test_label)
+    for i, name in zip(range(len(output)), names):
+        print(name + '预测结果为:' + flower_dict[output[i]])
+    account = 0
+    result = 0
+    for truth, predict in zip(output, test_label):
+        account += 1
+        if truth == predict:
+            result += 1
+    acc = result / account
+    print('acc is %f' % acc)
