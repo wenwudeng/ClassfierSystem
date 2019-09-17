@@ -27,7 +27,6 @@
   export default {
     data() {
       return {
-        path: "@/assets/img/",
         srcList1:[],
         items: ['True', 'False'],
       };
