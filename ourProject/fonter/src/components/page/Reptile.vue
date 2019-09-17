@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div style="text-align: center;margin-top: 70px">
+  <div style="text-align: center;margin-top: 30px">
+    <br>
+    <div>
       <el-select v-model="url_value" placeholder="请选择">
         <el-option
           v-for="item in options"
@@ -10,8 +11,18 @@
          </el-option>
       </el-select>
       <el-input v-model="word" placeholder="请输入爬取的内容" style="width: 200px"></el-input>
+      <el-date-picker
+        v-model="time_value"
+        value-format="yyyy-MM-dd"
+        type="daterange"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期">
+      </el-date-picker>
       <el-button type="primary" @click="reptile">爬虫</el-button>
+       <el-button type="primary" @click="test">test</el-button>
     </div>
+
     <div clas="outer" style="text-align: center">
        <!--图片显示-->
       <el-row :gutter="20">
@@ -45,7 +56,8 @@ export default {
           value: '2',
           label: '搜狗'
         }],
-        value: ''
+        value: '',
+        time_value: ''
     };
   },
 
@@ -55,13 +67,21 @@ export default {
       this.$axios
       .post('/reptile/', {
         url_value: this.url_value,
-        word: this.word
+        word: this.word,
+        time_value: this.time_value,
       })
       .then(response => {
 
       })
       .catch(error => {});
 
+    },
+    test() {
+      this.$axios
+      .post('/test/', {
+        time_value: this.time_value,
+      });
+      console.log(this.time_value);
     }
   },
 
@@ -79,7 +99,9 @@ export default {
         }
       })
       .catch(error => {});
-  }
+  },
+
+
 }
 </script>
 

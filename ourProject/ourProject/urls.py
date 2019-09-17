@@ -10,6 +10,8 @@ urlpatterns = [
     path('register/', views.register),
     path('sendmessage/', views.sendmessage),
     path('reptile/', views.reptile),
+    path('get_img/', views.get_img),
+    path('test/', views.test),
 
     # 数据库增删改查示例
     path('insertPerson/', views.insertPerson),
