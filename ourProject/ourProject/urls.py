@@ -17,5 +17,9 @@ urlpatterns = [
     path('insertPerson/', views.insertPerson),
     path('delPerson/', views.delPerson),
     path('updatePerson/', views.updatePerson),
-    path('listPerson/', views.listPerson)
+    path('listPerson/', views.listPerson),
+
+    # 数据标注
+    path('getImage/',views.getDataUrl),
+    path('transData/',views.saveTransData)
 ]
