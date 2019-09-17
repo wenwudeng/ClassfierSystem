@@ -19,9 +19,9 @@ def get_url(url_value, word):
     img_url = ""
     # 百度图片的链接
     if url_value == 1:
-        img_url =  "https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=img_word&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=-1&z=&ic=0&hd=&latest=&copyright=&word=img_word&s=&se=&tab=&width=&height=&face=0&istype=2&qc=&nc=1&fr=&expermode=&force=&pn=img_page&rn=30&gsm=&1568222792994="
+        img_url = "https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=img_word&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=-1&z=&ic=0&hd=&latest=&copyright=&word=img_word&s=&se=&tab=&width=&height=&face=0&istype=2&qc=&nc=1&fr=&expermode=&force=&pn=img_page&rn=30&gsm="
     elif url_value == 2:
-        img_url = "https://pic.sogou.com/pics?query=img_word&mode=1&start=img_word&reqType=ajax&reqFrom=result&tn=0"
+        img_url = "https://pic.sogou.com/pics?query=img_word&mode=1&start=img_page&reqType=ajax&reqFrom=result&tn=0"
     img_url = img_url.replace('img_word', word)
     return img_url
 
@@ -39,7 +39,7 @@ def time_check(time_value, time_list, i):
         return 1
 
     # 如果用户没有输入时间范围默认爬取全部
-    elif time_value is None:
+    elif len(time_value) == 0:
         return 1
 
     else:
@@ -55,10 +55,7 @@ def time_check(time_value, time_list, i):
 
 def write_file(img_url_list, time_value, time_list):
     img_local = []
-    get_name = []
     print(time_value)
-    st = datetime.strptime(str(time_value[0]), "%Y-%m-%d")
-    et = datetime.strptime(str(time_value[1]), "%Y-%m-%d")
     image = Image.objects.all()
     i = 0
     flag = 0
@@ -83,11 +80,10 @@ def write_file(img_url_list, time_value, time_list):
 
 # 百度爬虫
 def get_baidu_img(url_value, word, time_value):
-    img_url = get_url(url_value, word)
-    img_local = []
-    time_list = []
-    for i in range(1, 10):
+    for i in range(1, 5):
+        img_url = get_url(url_value, word)
         img_url = img_url.replace('img_page', str(i * 30))
+        print(img_url)
         response = requests.get(img_url, headers=headers)
         img_url_list = re.findall(r'"middleURL":"(.*?)"', response.text)
         time_list = re.findall(r'"bdImgnewsDate":"(.*?) ', response.text)
@@ -96,10 +92,11 @@ def get_baidu_img(url_value, word, time_value):
 
 # 搜狗爬虫
 def get_sougou_img(url_value, word, time_value):
-    img_url = get_url(url_value, word)
     time_list = []
-    for i in range(1, 10):
+    for i in range(1, 5):
+        img_url = get_url(url_value, word)
         img_url = img_url.replace('img_page', str(i * 48))
+        print(img_url)
         response = requests.get(img_url, headers=headers)
         img_url_list = re.findall(r'"thumbUrl":"(.*?)"', response.text)
         write_file(img_url_list, time_value, time_list)
