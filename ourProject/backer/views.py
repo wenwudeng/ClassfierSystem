@@ -152,8 +152,8 @@ def reptile(request):
     print(date)
     url_value = int(date.get('url_value'))
     word = date.get('word')
-    img_local = reptiles.run(url_value, word)
-    data = {"img_local": img_local}
+    reptiles.run(url_value, word)
+    data = {}
     print(data)
     return JsonResponse(data)
 

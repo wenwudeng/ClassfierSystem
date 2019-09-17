@@ -24,21 +24,6 @@ def get_url(url_value, word):
     return img_url
 
 
-def get_new_name(file_name):
-    file_name = file_name.replace('<', '')
-    file_name = file_name.replace('>', '')
-    file_name = file_name.replace('《', '')
-    file_name = file_name.replace('》', '')
-    file_name = file_name.replace('\\', '')
-    file_name = file_name.replace('?', '')
-    file_name = file_name.replace('|', '')
-    file_name = file_name.replace('!', '')
-    file_name = file_name.replace(':', '')
-    if file_name == '':
-        file_name = 'temp'
-    return file_name
-
-
 def write_database(file_name):
     image = Image()
     image.path = file_name
@@ -49,17 +34,18 @@ def write_database(file_name):
 def write_file(img_url_list, img_name):
     img_local = []
     get_name = []
-    flag = 0
+    image = Image.objects.all()
+    flag = int((re.findall(r'\d+', str(image[len(image) - 1].path)))[0])   # 获取最后一个数值
     cur_path = os.path.abspath(os.path.dirname(__file__)).replace('backer\\service', '')
+
     for img in img_url_list:
         file_name = "img" + str(flag)
         flag += 1
-        file_name = get_new_name(file_name)
         get_name = file_name + str('.png')
-        database_name =  file_name + str('.png')
+        write_database(get_name)
         file_name = cur_path + str('fonter\\src\\assets\\img\\') + file_name + str('.png')
         img_local.append(get_name)
-        write_database(database_name)
+
         with open(file_name, "wb") as f:
             f.write(requests.get(img).content)
     return img_local
@@ -102,5 +88,6 @@ def run(url_value, word):
     return img_local
 
 
-
-
+if __name__ == "__main__":
+    images = Image.objects.all()[-1]
+    print(images)
