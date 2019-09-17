@@ -4,7 +4,16 @@ import numpy as np
 import os  # os 处理文件和目录的模块
 import glob  # glob 文件通配符模块
 
-path = '.\\testdata\\'
+# 测试的数据集路径
+# path = 'C:\\Users\\Lin\\Desktop\\testdata\\'
+path = './sheep/testdata/'
+
+# 模型路径
+modelpath ='./sheep/model/fc_model.ckpt-8.meta'
+
+# checkpoint路径
+checkpointpath = './sheep/model/'
+
 # 类别代表字典
 flower_dict = {0: 'sheep', 1: 'dog'}
 
@@ -51,8 +60,8 @@ def read_img(path):
 # 调用读取图片的函数，得到图片和labels的数据集
 data = read_img(path)
 with tf.Session() as sess:
-    saver = tf.train.import_meta_graph('.\\model\\fc_model.ckpt-4.meta')
-    saver.restore(sess, tf.train.latest_checkpoint('.\\model'))
+    saver = tf.train.import_meta_graph(modelpath)
+    saver.restore(sess, tf.train.latest_checkpoint(checkpointpath))
     # sess：表示当前会话，之前保存的结果将被加载入这个会话
     # 设置每次预测的个数
     graph = tf.get_default_graph()
