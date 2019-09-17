@@ -10,11 +10,14 @@ urlpatterns = [
     path('register/', views.register),
     path('sendmessage/', views.sendmessage),
     path('reptile/', views.reptile),
-    path('get_img/', views.get_img),
 
     # 数据库增删改查示例
     path('insertPerson/', views.insertPerson),
     path('delPerson/', views.delPerson),
     path('updatePerson/', views.updatePerson),
-    path('listPerson/', views.listPerson)
+    path('listPerson/', views.listPerson),
+
+    # 数据标注
+    path('getImage/',views.getDataUrl),
+    path('transData/',views.saveTransData)
 ]

@@ -35,7 +35,9 @@ def write_file(img_url_list, img_name):
     img_local = []
     get_name = []
     image = Image.objects.all()
-    flag = int((re.findall(r'\d+', str(image[len(image) - 1].path)))[0])   # 获取最后一个数值
+    flag = 0
+    if len(image) != 0:
+        flag = int((re.findall(r'\d+', str(image[len(image) - 1].path)))[0])  # 获取最后一个数值
     cur_path = os.path.abspath(os.path.dirname(__file__)).replace('backer\\service', '')
 
     for img in img_url_list:

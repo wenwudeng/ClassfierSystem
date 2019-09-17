@@ -17,7 +17,7 @@ class User(models.Model):
 class Image(models.Model):
     id = models.AutoField(primary_key=True)  # 键
     path = models.CharField(max_length=100)  # 图片路径
-    isTrue = models.BooleanField(default=True)  # Boolean判断,
+    isTrue = models.BooleanField(default=False)  # Boolean判断,
 
     # 修改表名
     class Meta:
