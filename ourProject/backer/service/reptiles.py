@@ -33,6 +33,26 @@ def write_database(file_name):
     pass
 
 
+def time_check(time_value, time_list, i):
+    # 如果所爬取的网站没有给图片时间信息则返回1
+    if len(time_list) == 0:
+        return 1
+
+    # 如果用户没有输入时间范围默认爬取全部
+    elif time_value is None:
+        return 1
+
+    else:
+        st = datetime.strptime(str(time_value[0]), "%Y-%m-%d")
+        et = datetime.strptime(str(time_value[1]), "%Y-%m-%d")
+        if st < datetime.strptime(time_list[i], "%Y-%m-%d") < et:
+            return 1
+        else:
+            return 0
+
+    pass
+
+
 def write_file(img_url_list, time_value, time_list):
     img_local = []
     get_name = []
@@ -46,7 +66,7 @@ def write_file(img_url_list, time_value, time_list):
         flag = int((re.findall(r'\d+', str(image[len(image) - 1].path)))[0]) + 1  # 获取最后一个数值
     cur_path = os.path.abspath(os.path.dirname(__file__)).replace('backer\\service', '')
     for img in img_url_list:
-        if st < datetime.strptime(time_list[i], "%Y-%m-%d") < et:
+        if time_check(time_value, time_list, i):
             file_name = "img" + str(flag)
             flag += 1
             get_name = file_name + str('.png')
@@ -71,21 +91,18 @@ def get_baidu_img(url_value, word, time_value):
         response = requests.get(img_url, headers=headers)
         img_url_list = re.findall(r'"middleURL":"(.*?)"', response.text)
         time_list = re.findall(r'"bdImgnewsDate":"(.*?) ', response.text)
-        print(time_list)
         write_file(img_url_list, time_value, time_list)
 
 
 # 搜狗爬虫
 def get_sougou_img(url_value, word, time_value):
     img_url = get_url(url_value, word)
-    img_local = []
     time_list = []
     for i in range(1, 10):
         img_url = img_url.replace('img_page', str(i * 48))
         response = requests.get(img_url, headers=headers)
         img_url_list = re.findall(r'"thumbUrl":"(.*?)"', response.text)
-        img_local = write_file(img_url_list, time_value, time_list)
-    return img_local
+        write_file(img_url_list, time_value, time_list)
 
 
 def run(url_value, word, time_value):
