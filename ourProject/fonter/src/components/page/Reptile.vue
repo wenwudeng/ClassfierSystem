@@ -20,7 +20,6 @@
         end-placeholder="结束日期">
       </el-date-picker>
       <el-button type="primary" @click="reptile">爬虫</el-button>
-       <el-button type="primary" @click="test">test</el-button>
     </div>
 
     <div clas="outer" style="text-align: center">
@@ -55,6 +54,9 @@ export default {
         }, {
           value: '2',
           label: '搜狗'
+        }, {
+          value: '3',
+          label: 'bing'
         }],
         value: '',
         time_value: ''

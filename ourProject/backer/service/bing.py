@@ -31,7 +31,7 @@ def FindLink(PageNum, InputData, word):
 
 
 #从得到的图片链接下载图片，并保存
-def SaveImage(link,InputData,count):
+def SaveImage(link, InputData, count):
     try:
         time.sleep(0.2)
         urllib.request.urlretrieve(link,'./'+InputData+'/'+str(count)+'.jpg')
@@ -47,8 +47,8 @@ if __name__=='__main__':
     PageNum = 100
     #输入需要搜索的关键字
     print('请输入关键字')
-    word=input()
+    word = input()
     #UTF-8编码
     InputData=urllib.parse.quote(word)
     print(InputData)
-    FindLink(PageNum,InputData,word)
+    FindLink(PageNum, InputData, word)

@@ -1,4 +1,5 @@
 from django.utils.datetime_safe import datetime
+from bs4 import BeautifulSoup
 
 import requests
 import re
@@ -22,6 +23,8 @@ def get_url(url_value, word):
         img_url = "https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=&fp=result&queryWord=img_word&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=-1&z=&ic=0&hd=&latest=&copyright=&word=img_word&s=&se=&tab=&width=&height=&face=0&istype=2&qc=&nc=1&fr=&expermode=&force=&pn=img_page&rn=30&gsm="
     elif url_value == 2:
         img_url = "https://pic.sogou.com/pics?query=img_word&mode=1&start=img_page&reqType=ajax&reqFrom=result&tn=0"
+    elif url_value == 3:
+        img_url = "https://cn.bing.com/images/async?q=img_word&first=img_page&count=35&relp=35&scenario=ImageBasicHover&datsrc=N_I&layout=RowBased_Landscape&mmasync=1&dgState=x*743_y*1322_h*207_c*3_i*71_r*13&IG=F61A2FF509BC4328951A7F1222C8A4B5&SFX=3&iid=images.5633"
     img_url = img_url.replace('img_word', word)
     return img_url
 
@@ -102,6 +105,23 @@ def get_sougou_img(url_value, word, time_value):
         write_file(img_url_list, time_value, time_list)
 
 
+#bing 爬虫
+def get_bing_img(url_value, word, time_value):
+    img_url_list = []
+    time_list = []
+    for i in range(1, 5):
+        img_url = get_url(url_value, word)
+        img_url = img_url.replace('img_page', str(i * 39))
+        response = requests.get(img_url, headers=headers)
+        soup = BeautifulSoup(response.text, "html.parser")
+        src_list = soup.find_all('img', class_='mimg')
+        for src in src_list:
+            img_url_list.append(src['src'])
+        print(img_url_list)
+        write_file(img_url_list, time_value, time_list)
+    pass
+
+
 def run(url_value, word, time_value):
     print(url_value, word)
     img_local = []
@@ -109,6 +129,8 @@ def run(url_value, word, time_value):
         get_baidu_img(url_value, word, time_value)
     elif url_value == 2:
         get_sougou_img(url_value, word, time_value)
+    elif url_value == 3:
+        get_bing_img(url_value, word, time_value)
     return img_local
 
 
