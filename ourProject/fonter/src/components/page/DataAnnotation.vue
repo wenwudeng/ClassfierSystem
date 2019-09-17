@@ -15,9 +15,8 @@
           </el-select>
         </div>
       </el-col>
-        <el-button type="primary" style="margin-top: 30px;width: 400px"  @click="submit">提交</el-button>
+      <el-button type="primary" style="margin-top: 30px;width: 400px" @click="submit">提交</el-button>
     </el-row>
-
 
 
   </div>
@@ -27,34 +26,42 @@
   export default {
     data() {
       return {
-        srcList1:[],
+        srcList1: [],
         items: ['True', 'False'],
       };
     },
     methods: {
-      submit(){
-              this.$axios
-      .post('/transData/',{
-        result:this.srcList1
-      })
-      .then(response => {
-        this.srcList1 = response.data.img
-      })
-      .catch(error => {});
+      /*后台传送修改值*/
+      submit() {
+        this.$axios
+          .post('/transData/', {
+            result: this.srcList1
+          })
+          .then(response => {
+            this.srcList1 = response.data.img
+            this.$message.success("提交成功");
+            this.getData()
+          })
+          .catch(error => {
+          });
+      },
 
-    },
-
-    },
-    created() {
-      this.$axios
-      .post('/getImage/')
-      .then(response => {
-        this.srcList1 = response.data.img
-        console.log("1111",this.srcList1)
-        console.log("2222",this.srcList1[0].img)
-      })
-      .catch(error => {});
+      getData() {
+        this.$axios
+          .post('/getImage/')
+          .then(response => {
+            this.srcList1 = response.data.img
+          })
+          .catch(error => {
+          });
       }
+    },
+
+    /*加载页面之前先获取后台数据*/
+    created() {
+      /*获取数据库地图片址*/
+      this.getData()
+    }
 
   }
 </script>
