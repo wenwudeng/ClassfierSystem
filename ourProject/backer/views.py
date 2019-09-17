@@ -158,18 +158,15 @@ def reptile(request):
     return JsonResponse(data)
 
 # 前端获取数据库图片地址
-@csrf_exempt
-def get_img(request):
-    imgUrls = []
-    img = Image.objects.all()
-    img1 = random.sample(list(img),8)
-    print(len(img1))
-    count = 0
-    for x in img1 :
-        count += 1
-        imgUrls.append({"img":x.path,"isTrue":x.isTrue,"id":x.id})
-    data = {"img": imgUrls}
-    return JsonResponse(data)
+
+    images = Image.objects.all()
+    img_local = []
+    for item in images:
+        img_local.append(item.path)
+    # data = json.loads(img_local)
+    length = len(img_local)
+    img_local = img_local[length - 8: length]
+    data = {"img_local": img_local}
 
 # 修改数据库标记值
 @csrf_exempt
