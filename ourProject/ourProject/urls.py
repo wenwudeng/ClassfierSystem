@@ -30,4 +30,5 @@ urlpatterns = [
     path('cnnTest/',views.cnnTest),
     path('knnTest/',views.knnTest),
     path('bpTest/',views.bpTest),
+    path('svmTest/',views.svmTest),
 ]

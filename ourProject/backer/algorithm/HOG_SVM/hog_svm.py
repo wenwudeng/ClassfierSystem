@@ -16,22 +16,24 @@ label_map = {0: 'sheep',
              1: 'dog'
              }
 # 训练集图片的位置
-train_image_path = 'image128/'
+train_image_path = 'backer/algorithm/HOG_SVM/image128/'
 # 测试集图片的位置
-test_image_path = 'testdata/'
+test_image_path = 'backer/algorithm/HOG_SVM/testdata/'
 
 # 训练集标签的位置
-train_label_path = os.path.join('image128', 'train.txt')
+train_label_path = os.path.join('backer/algorithm/HOG_SVM/image128', 'train.txt')
 # 测试集标签的位置
-test_label_path = os.path.join('testdata', 'test.txt')
+test_label_path = os.path.join('backer/algorithm/HOG_SVM/testdata', 'test.txt')
 
 image_height = 64
 image_width = 64
 
-train_feat_path = 'train/'
-test_feat_path = 'test/'
-model_path = 'model/'
+train_feat_path = 'backer/algorithm/HOG_SVM/train/'
+test_feat_path = 'backer/algorithm/HOG_SVM/test/'
+model_path = 'backer/algorithm/HOG_SVM/model/'
 
+acc = 0.0
+runtime = 0.0
 
 # 获得图片列表
 def get_image_list(filePath, nameList):
@@ -147,10 +149,12 @@ def train_and_test():
         if int(result[0]) == int(data_test[-1]):
             correct_number += 1
     write_to_txt(result_list)
-    rate = float(correct_number) / total
+    global acc, runtime
+    acc = float(correct_number) / total
     t1 = time.time()
-    print('准确率是： %f' % rate)
-    print('耗时是 : %f' % (t1 - t0))
+    runtime = t1 - t0
+    print('准确率是： %f' % acc)
+    print('耗时是 : %f' % runtime)
 
 
 def classify_algorithm():
@@ -175,10 +179,12 @@ def classify_algorithm():
         if int(result[0]) == int(data_test[-1]):
             correct_number += 1
     write_to_txt(result_list)
-    rate = float(correct_number) / total
+    global acc,runtime
+    acc = float(correct_number) / total
     t1 = time.time()
-    print('准确率是： %f' % rate)
-    print('耗时是 : %f' % (t1 - t0))
+    runtime = t1-t0
+    print('准确率是： %f' % acc)
+    print('耗时是 : %f' % runtime)
 
 
 def write_to_txt(list):
@@ -198,16 +204,19 @@ if __name__ == '__main__':
     #     train_label_path = input('请输入训练集合标签的位置,如 /home/icelee/train.txt\n')
     #     test_label_path = input('请输入测试集合标签的位置,如 /home/icelee/test.txt\n')
     #     size = int(input('请输入您图片的大小：如64x64，则输入64\n'))
-    if sys.version_info < (3,):
-        need_extra_feat = raw_input('是否需要重新获取特征？y/n\n')
-    else:
-        need_extra_feat = input('是否需要重新获取特征？y/n\n')
-
-    if need_extra_feat == 'y':
-        shutil.rmtree(train_feat_path)
-        shutil.rmtree(test_feat_path)
-        mkdir()
-        extra_feat()  # 获取特征并保存在文件夹
+    # if sys.version_info < (3,):
+    #     need_extra_feat = raw_input('是否需要重新获取特征？y/n\n')
+    # else:
+    #     need_extra_feat = input('是否需要重新获取特征？y/n\n')
+    #
+    # if need_extra_feat == 'y':
+    #     shutil.rmtree(train_feat_path)
+    #     shutil.rmtree(test_feat_path)
+    #     mkdir()
+    #     extra_feat()  # 获取特征并保存在文件夹
 
     train_and_test()  # 训练并预测
 
+def svmTest():
+    mkdir()
+    train_and_test()

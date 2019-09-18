@@ -54,7 +54,7 @@ export default {
   methods:{
     show(){
       if(this.radio == 1){
-        this.algorithmName = '算法一'
+        this.algorithmName = 'CNN'
         this.$axios
           .get('/cnnTest/',{})
           .then(data =>{
@@ -79,7 +79,7 @@ export default {
           })
       }
       else if(this.radio == 2){
-        this.algorithmName = '算法二'
+        this.algorithmName = 'KNN'
         this.$axios
           .get('/knnTest/',{})
           .then(data =>{
@@ -104,14 +104,9 @@ export default {
           })
       }
       else if(this.radio == 3){
-        this.$message({
-          showClose: true,
-          message: '该算法需要一定时间，请稍等片刻',
-          type: 'warning'
-        });
-        this.algorithmName = '算法三'
+        this.algorithmName = 'SVM'
         this.$axios
-          .get('/bpTest/',{})
+          .get('/svmTest/',{})
           .then(data =>{
             if (data.data !==null){
               let algorithmPerf={}
@@ -134,13 +129,34 @@ export default {
           })
       }
       else if(this.radio == 4){
-        this.algorithmName = '算法四'
         this.$message({
           showClose: true,
-          message: '还未写完',
-          type: 'error'
+          message: '该算法需要一定时间，请稍等片刻',
+          type: 'warning'
         });
-
+        this.algorithmName = 'BP'
+        this.$axios
+          .get('/bpTest/',{})
+          .then(data =>{
+            if (data.data !==null){
+              let algorithmPerf={}
+              this.$set(algorithmPerf,'算法',this.algorithmName)
+              this.$set(algorithmPerf,'准确度',data.data.acc)
+              this.$set(algorithmPerf,'时间',data.data.runtime)
+              this.chartData.rows.push(algorithmPerf)
+              this.$message({
+                message: '测试结果已展示',
+                type: 'success'
+              });
+            }
+            else {
+              this.$message({
+                showClose: true,
+                message: '算法测试出错，请重试',
+                type: 'error'
+              });
+            }
+          })
       }
 
     },

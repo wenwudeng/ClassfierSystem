@@ -13,6 +13,7 @@ from .models import *
 from backer.algorithm.CNN import test as classifyAlgorithm
 from backer.algorithm.knn import knn as knnAlgorithm
 from backer.algorithm.bp import test as bpAlgorithm
+from backer.algorithm.HOG_SVM import hog_svm as svmAlgorithm
 
 def DataTest(request):
     print("===========")
@@ -263,6 +264,18 @@ def bpTest(request):
     runtime = bpAlgorithm.runtime
     result = {"acc": acc, "runtime": runtime}
     return JsonResponse(result)
+
+@csrf_exempt
+def svmTest(request):
+    print("------------------------")
+    svmAlgorithm.svmTest()
+    print("------------------------3333333333333")
+
+    acc = svmAlgorithm.acc
+    runtime = svmAlgorithm.runtime
+    result = {"acc": acc, "runtime": runtime}
+    return JsonResponse(result)
+
 
 # 作为测试
 @csrf_exempt
