@@ -11,6 +11,8 @@ from . import zhenzismsclient as smsclient
 from .models import *
 
 from backer.algorithm.CNN import test as classifyAlgorithm
+from backer.algorithm.knn import knn as knnAlgorithm
+from backer.algorithm.bp import test as bpAlgorithm
 
 def DataTest(request):
     print("===========")
@@ -225,15 +227,41 @@ def saveTransData(request):
 def classifyPhoto(request):
     data = json.load(request)
     imgname = data.get("imageUrl")
-    print('_________===================_______________'+imgname)
     classifyAlgorithm.photo_name = imgname
-    print('_________===================_______________' + classifyAlgorithm.photo_name)
-
     classifyAlgorithm.classify_main_method()
     classifyResult = classifyAlgorithm.classify_result
-    print('_________'+classifyAlgorithm.classify_result+'=========2222222222222222==========_______________' + classifyAlgorithm.photo_name+"---------"+classifyResult)
     classifyAlgorithm.photo_name = ''
     result = {"result": classifyResult}
+    return JsonResponse(result)
+#算法展示
+
+@csrf_exempt
+def cnnTest(request):
+    classifyAlgorithm.cnnTest()
+    acc = classifyAlgorithm.acc
+    runtime = classifyAlgorithm.runtime
+    print(str(classifyAlgorithm.acc) + '___------------======______' + str(classifyAlgorithm.runtime))
+    result = {"acc": acc, "runtime": runtime}
+    return JsonResponse(result)
+
+@csrf_exempt
+def knnTest(request):
+    print("------------------------")
+    print("------------------------2222222222222222222222")
+    knnAlgorithm.knnTest()
+    acc = knnAlgorithm.acc
+    runtime = knnAlgorithm.runtime
+    result = {"acc": acc, "runtime": runtime}
+    return JsonResponse(result)
+
+@csrf_exempt
+def bpTest(request):
+    print("------------------------")
+    print("------------------------3333333333333")
+    bpAlgorithm.bpTest()
+    acc = bpAlgorithm.acc
+    runtime = bpAlgorithm.runtime
+    result = {"acc": acc, "runtime": runtime}
     return JsonResponse(result)
 
 # 作为测试

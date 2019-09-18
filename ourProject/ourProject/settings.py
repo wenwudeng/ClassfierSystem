@@ -19,6 +19,9 @@ import pymysql
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0,os.path.join(BASE_DIR,'backer/algorithm/CNN'))
+sys.path.insert(0,os.path.join(BASE_DIR,'backer/algorithm/bp'))
+sys.path.insert(0,os.path.join(BASE_DIR,'backer/algorithm/knn'))
+sys.path.insert(0,os.path.join(BASE_DIR,'backer/algorithm/HOG_SVM'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/

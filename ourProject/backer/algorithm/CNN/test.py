@@ -3,9 +3,11 @@ import tensorflow as tf
 import numpy as np
 import os  # os 处理文件和目录的模块
 import glob  # glob 文件通配符模块
-
+import datetime
 # 测试的数据集路径
-global path
+
+# starttime = datetime.datetime.now()
+
 path = os.path.abspath(os.path.dirname(__file__))+str(r'\sheep\testdata/')
 # path = os.getcwd()+'\\CNN\\sheep\\testdata\\'
 
@@ -26,6 +28,8 @@ photo_name = ''
 # photo_name = 'sheep7.jpg'
 
 classify_result = ''
+acc = 0.0
+runtime = 0.0
 
 w = 100
 h = 100
@@ -33,13 +37,13 @@ c = 3
 
 names = []
 
-# 读取所有的测试文件
-for a, b, c in os.walk(path):
-        for i in c:
-            print(i)
-            names.append(i)
-            print(len(names))
-
+# # 读取所有的测试文件
+# for a, b, c in os.walk(path):
+#         for i in c:
+#             print(i)
+#             names.append(i)
+#             print(len(names))
+#
 
 
 # 读取图片+数据处理
@@ -95,52 +99,57 @@ def read_img_classify():
     return np.asarray(imgs, np.float32)
 
 # 调用读取图片的函数，得到图片和labels的数据集
-data = read_img()
+# data = read_img()
 
 
-with tf.Session() as sess:
-    saver = tf.train.import_meta_graph(modelpath)
-    saver.restore(sess, tf.train.latest_checkpoint(checkpointpath))
-    # sess：表示当前会话，之前保存的结果将被加载入这个会话
-    # 设置每次预测的个数
-    graph = tf.get_default_graph()
+# with tf.Session() as sess:
+#     saver = tf.train.import_meta_graph(modelpath)
+#     saver.restore(sess, tf.train.latest_checkpoint(checkpointpath))
+#     # sess：表示当前会话，之前保存的结果将被加载入这个会话
+#     # 设置每次预测的个数
+#     graph = tf.get_default_graph()
+#
+#     x = graph.get_tensor_by_name("x:0")
+#
+#     feed_dict = {x: data}
+#
+#     logits = graph.get_tensor_by_name("logits_eval:0")  # eval功能等同于sess(run)
+#
+#     classification_result = sess.run(logits, feed_dict)
+#
+#     # 打印出预测矩阵
+#     print(classification_result)
+#     # 打印出预测矩阵每一行最大值的索引
+#     print(tf.argmax(classification_result, 1).eval())
+#     # 根据索引通过字典进行分类
+#     output = []
+#     output = tf.argmax(classification_result, 1).eval()
+#     # print(output)
+#
+#     test_label = []
+#     if len(photo_name) == 0:
+#         for name in names:
+#             if list(name)[0] == 'd':
+#                 test_label.append(1)
+#             if list(name)[0] == 's':
+#                 test_label.append(0)
+#         print(test_label)
+#         print("3________test")
+#         for i, name in zip(range(len(output)), names):
+#             print(name + '预测结果为:' + flower_dict[output[i]])
+#         account = 0
+#         result = 0
+#         for truth, predict in zip(output, test_label):
+#             account += 1
+#             if truth == predict:
+#                 result += 1
+#
+#         acc = result / account
+#         print('acc is %f' % acc)
+#         endtime = datetime.datetime.now()
+#         runtime = endtime.timestamp() - starttime.timestamp()
+#         print(runtime)
 
-    x = graph.get_tensor_by_name("x:0")
-
-    feed_dict = {x: data}
-
-    logits = graph.get_tensor_by_name("logits_eval:0")  # eval功能等同于sess(run)
-
-    classification_result = sess.run(logits, feed_dict)
-
-    # 打印出预测矩阵
-    print(classification_result)
-    # 打印出预测矩阵每一行最大值的索引
-    print(tf.argmax(classification_result, 1).eval())
-    # 根据索引通过字典进行分类
-    output = []
-    output = tf.argmax(classification_result, 1).eval()
-    # print(output)
-
-    test_label = []
-    if len(photo_name) == 0:
-        for name in names:
-            if list(name)[0] == 'd':
-                test_label.append(1)
-            if list(name)[0] == 's':
-                test_label.append(0)
-        print(test_label)
-        print("3________test")
-        for i, name in zip(range(len(output)), names):
-            print(name + '预测结果为:' + flower_dict[output[i]])
-        account = 0
-        result = 0
-        for truth, predict in zip(output, test_label):
-            account += 1
-            if truth == predict:
-                result += 1
-        acc = result / account
-        print('acc is %f' % acc)
 def classify_main_method():
     names = []
     print(photo_name)
@@ -177,3 +186,60 @@ def classify_main_method():
             print(name + '预测结果为:' + flower_dict[output[i]])
             classify_result = flower_dict[output[i]]
             print(classify_result)
+def cnnTest():
+    starttime = datetime.datetime.now()
+    global names
+    names = []
+    for a, b, c in os.walk(path):
+        for i in c:
+            print(i)
+            names.append(i)
+            print(len(names))
+    data = read_img()
+    with tf.Session() as sess:
+        saver = tf.train.import_meta_graph(modelpath)
+        saver.restore(sess, tf.train.latest_checkpoint(checkpointpath))
+        # sess：表示当前会话，之前保存的结果将被加载入这个会话
+        # 设置每次预测的个数
+        graph = tf.get_default_graph()
+
+        x = graph.get_tensor_by_name("x:0")
+
+        feed_dict = {x: data}
+
+        logits = graph.get_tensor_by_name("logits_eval:0")  # eval功能等同于sess(run)
+
+        classification_result = sess.run(logits, feed_dict)
+
+        # 打印出预测矩阵
+        print(classification_result)
+        # 打印出预测矩阵每一行最大值的索引
+        print(tf.argmax(classification_result, 1).eval())
+        # 根据索引通过字典进行分类
+        output = []
+        output = tf.argmax(classification_result, 1).eval()
+        # print(output)
+
+        test_label = []
+        if len(photo_name) == 0:
+            for name in names:
+                if list(name)[0] == 'd':
+                    test_label.append(1)
+                if list(name)[0] == 's':
+                    test_label.append(0)
+            print(test_label)
+            print("3________test")
+            for i, name in zip(range(len(output)), names):
+                print(name + '预测结果为:' + flower_dict[output[i]])
+            account = 0
+            result = 0
+            for truth, predict in zip(output, test_label):
+                account += 1
+                if truth == predict:
+                    result += 1
+            global acc, runtime
+            acc = result / account
+            print('acc is %f' % acc)
+            endtime = datetime.datetime.now()
+            runtime = endtime.timestamp() - starttime.timestamp()
+            print('runtime is %f' % runtime)

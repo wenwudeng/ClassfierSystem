@@ -209,3 +209,4 @@ if __name__ == '__main__':
         extra_feat()  # 获取特征并保存在文件夹
 
     train_and_test()  # 训练并预测
+

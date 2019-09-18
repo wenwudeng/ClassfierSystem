@@ -24,5 +24,10 @@ urlpatterns = [
     path('transData/',views.saveTransData),
 
     #图像分类
-    path('imgClassify/',views.classifyPhoto)
+    path('imgClassify/',views.classifyPhoto),
+
+    #算法展示
+    path('cnnTest/',views.cnnTest),
+    path('knnTest/',views.knnTest),
+    path('bpTest/',views.bpTest),
 ]

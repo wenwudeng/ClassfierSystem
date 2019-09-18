@@ -9,44 +9,47 @@ import cv2
 from sklearn.preprocessing import LabelBinarizer
 import random
 
-starttime = datetime.datetime.now()
+# starttime = datetime.datetime.now()
 
-X_train = []
-y_train = []
-path = 'photo/train/'
-path1 = 'photo/test/'
-cate = [path + x for x in os.listdir(path) if os.path.isdir(path + x)]
-cate1 = [path1 + x for x in os.listdir(path1) if os.path.isdir(path1 + x)]
-for idx, folder in enumerate(cate):
-    for im in glob.glob(folder + '/*.jpg'):
-        # 打开一张图片并灰度化
-        Images = cv2.imread(im)
-        image = cv2.resize(Images, (256, 256), interpolation=cv2.INTER_CUBIC)
-        hist = cv2.calcHist([image], [0, 1], None, [256, 256], [0.0, 255.0, 0.0, 255.0])
-        X_train.append((hist / 255).flatten())
-        y_train.append(idx)
-X_train = np.array(X_train)
-y_train = np.array(y_train)
-print('this is X_train %s' % X_train)
-print('this is y_train %s' % y_train)
+acc = 0.0
+runtime = 0.0
 
-X_test = []
-y_test = []
-
-for idx, folder in enumerate(cate1):
-    print('enter cate1 %s' % enumerate(cate1))
-    for im in glob.glob(folder + '/*.jpg'):
-        print('reading image :' + im)
-        # 打开一张图片并灰度化
-        Images = cv2.imread(im)
-        image = cv2.resize(Images, (256, 256), interpolation=cv2.INTER_CUBIC)
-        hist = cv2.calcHist([image], [0, 1], None, [256, 256], [0.0, 255.0, 0.0, 255.0])
-        X_test.append((hist / 255).flatten())
-        y_test.append(idx)
-X_test = np.array(X_test)
-y_test = np.array(y_test)
-print('this is X_test %s' % X_test)
-print(y_test)
+# X_train = []
+# y_train = []
+path = 'backer/algorithm/bp/photo/train/'
+path1 = 'backer/algorithm/bp/photo/test/'
+# cate = [path + x for x in os.listdir(path) if os.path.isdir(path + x)]
+# cate1 = [path1 + x for x in os.listdir(path1) if os.path.isdir(path1 + x)]
+# for idx, folder in enumerate(cate):
+#     for im in glob.glob(folder + '/*.jpg'):
+#         # 打开一张图片并灰度化
+#         Images = cv2.imread(im)
+#         image = cv2.resize(Images, (256, 256), interpolation=cv2.INTER_CUBIC)
+#         hist = cv2.calcHist([image], [0, 1], None, [256, 256], [0.0, 255.0, 0.0, 255.0])
+#         X_train.append((hist / 255).flatten())
+#         y_train.append(idx)
+# X_train = np.array(X_train)
+# y_train = np.array(y_train)
+# print('this is X_train %s' % X_train)
+# print('this is y_train %s' % y_train)
+#
+# X_test = []
+# y_test = []
+#
+# for idx, folder in enumerate(cate1):
+#     print('enter cate1 %s' % enumerate(cate1))
+#     for im in glob.glob(folder + '/*.jpg'):
+#         print('reading image :' + im)
+#         # 打开一张图片并灰度化
+#         Images = cv2.imread(im)
+#         image = cv2.resize(Images, (256, 256), interpolation=cv2.INTER_CUBIC)
+#         hist = cv2.calcHist([image], [0, 1], None, [256, 256], [0.0, 255.0, 0.0, 255.0])
+#         X_test.append((hist / 255).flatten())
+#         y_test.append(idx)
+# X_test = np.array(X_test)
+# y_test = np.array(y_test)
+# print('this is X_test %s' % X_test)
+# print(y_test)
 
 
 
@@ -163,23 +166,80 @@ class BP(NeuralNetwork):
         return self
 
 
-# epochs迭代次数
-clf0 = BP([X_train.shape[1], 2], 32).fit(X_train, y_train, epochs=100)
-print(X_test)
-
-predictions_labels = clf0.predict(X_test)
+# # epochs迭代次数
+# clf0 = BP([X_train.shape[1], 2], 32).fit(X_train, y_train, epochs=100)
+# print(X_test)
+#
+# predictions_labels = clf0.predict(X_test)
 
 # print(confusion_matrix(y_test, predictions_labels))
 
-account = 0
-result = 0
-for truth, predict in zip(y_test, predictions_labels):
-    account += 1
-    if truth == predict:
-        result += 1
-acc = result / account
-print('acc is %f' % acc)
+# account = 0
+# result = 0
+# for truth, predict in zip(y_test, predictions_labels):
+#     account += 1
+#     if truth == predict:
+#         result += 1
+# acc = result / account
+# print('acc is %f' % acc)
+# endtime = datetime.datetime.now()
+# runtime = endtime.timestamp() - starttime.timestamp()
+# print(runtime)
 
 # print(classification_report(y_test, predictions_labels))
-endtime = datetime.datetime.now()
-print(endtime - starttime)
+
+def bpTest():
+    starttime = datetime.datetime.now()
+    X_train = []
+    y_train = []
+    X_test = []
+    y_test = []
+    global path,path1
+    cate = [path + x for x in os.listdir(path) if os.path.isdir(path + x)]
+    cate1 = [path1 + x for x in os.listdir(path1) if os.path.isdir(path1 + x)]
+    for idx, folder in enumerate(cate):
+        for im in glob.glob(folder + '/*.jpg'):
+            # 打开一张图片并灰度化
+            Images = cv2.imread(im)
+            image = cv2.resize(Images, (256, 256), interpolation=cv2.INTER_CUBIC)
+            hist = cv2.calcHist([image], [0, 1], None, [256, 256], [0.0, 255.0, 0.0, 255.0])
+            X_train.append((hist / 255).flatten())
+            y_train.append(idx)
+    X_train = np.array(X_train)
+    y_train = np.array(y_train)
+    print('this is X_train %s' % X_train)
+    print('this is y_train %s' % y_train)
+    for idx, folder in enumerate(cate1):
+        print('enter cate1 %s' % enumerate(cate1))
+        for im in glob.glob(folder + '/*.jpg'):
+            print('reading image :' + im)
+            # 打开一张图片并灰度化
+            Images = cv2.imread(im)
+            image = cv2.resize(Images, (256, 256), interpolation=cv2.INTER_CUBIC)
+            hist = cv2.calcHist([image], [0, 1], None, [256, 256], [0.0, 255.0, 0.0, 255.0])
+            X_test.append((hist / 255).flatten())
+            y_test.append(idx)
+    X_test = np.array(X_test)
+    y_test = np.array(y_test)
+    print('this is X_test %s' % X_test)
+    print(y_test)
+    # epochs迭代次数
+    clf0 = BP([X_train.shape[1], 2], 32).fit(X_train, y_train, epochs=100)
+    print(X_test)
+
+    predictions_labels = clf0.predict(X_test)
+
+    # print(confusion_matrix(y_test, predictions_labels))
+
+    account = 0
+    result = 0
+    global acc,runtime
+    for truth, predict in zip(y_test, predictions_labels):
+        account += 1
+        if truth == predict:
+            result += 1
+    acc = result / account
+    print('acc is %f' % acc)
+    endtime = datetime.datetime.now()
+    runtime = endtime.timestamp() - starttime.timestamp()
+    print(runtime)
