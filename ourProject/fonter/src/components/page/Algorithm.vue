@@ -2,10 +2,10 @@
   <div class="algorithm">
     <div class="select-algorithm">
       <el-radio-group v-model="radio"  size="medium ">
-        <el-radio :label="1">算法一</el-radio>
-        <el-radio :label="2">算法二</el-radio>
-        <el-radio :label="3">算法三</el-radio>
-        <el-radio :label="4">算法四</el-radio>
+        <el-radio :label="1">算法CNN</el-radio>
+        <el-radio :label="2">算法KNN</el-radio>
+        <el-radio :label="3">算法SVM</el-radio>
+        <el-radio :label="4">算法BP</el-radio>
       </el-radio-group>
       <div class="test-btn">
         <el-button type="primary" @click="show()">算法测试</el-button>
