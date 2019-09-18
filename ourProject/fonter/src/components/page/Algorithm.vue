@@ -104,6 +104,11 @@ export default {
           })
       }
       else if(this.radio == 3){
+        this.$message({
+          showClose: true,
+          message: '该算法需要一定时间，请稍等片刻',
+          type: 'warning'
+        });
         this.algorithmName = '算法三'
         this.$axios
           .get('/bpTest/',{})
@@ -130,6 +135,12 @@ export default {
       }
       else if(this.radio == 4){
         this.algorithmName = '算法四'
+        this.$message({
+          showClose: true,
+          message: '还未写完',
+          type: 'error'
+        });
+
       }
 
     },
