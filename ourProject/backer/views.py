@@ -4,12 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import random
 import re
-
+import os
 from .service import reptiles
 from . import zhenzismsclient as smsclient
 
 from .models import *
 
+from backer.algorithm.CNN import test as classifyAlgorithm
 
 def DataTest(request):
     print("===========")
@@ -219,7 +220,21 @@ def saveTransData(request):
         print(e)
     return HttpResponse("test")
 
+#图片分类
+@csrf_exempt
+def classifyPhoto(request):
+    data = json.load(request)
+    imgname = data.get("imageUrl")
+    print('_________===================_______________'+imgname)
+    classifyAlgorithm.photo_name = imgname
+    print('_________===================_______________' + classifyAlgorithm.photo_name)
 
+    classifyAlgorithm.classify_main_method()
+    classifyResult = classifyAlgorithm.classify_result
+    print('_________'+classifyAlgorithm.classify_result+'=========2222222222222222==========_______________' + classifyAlgorithm.photo_name+"---------"+classifyResult)
+    classifyAlgorithm.photo_name = ''
+    result = {"result": classifyResult}
+    return JsonResponse(result)
 
 # 作为测试
 @csrf_exempt

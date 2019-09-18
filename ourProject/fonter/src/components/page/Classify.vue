@@ -3,20 +3,20 @@
     <div class="upload">
       <el-upload
         class="avatar-uploader"
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action
         :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="require('@/assets/'+imageUrl)" class="avatar">
+        :before-upload="beforeAvatarUpload"
+      >
+        <img v-if="imageUrl" :src="require('../../../../backer/algorithm/CNN/sheep/testdata/testphoto/'+imageUrl)" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
       <el-button class="img_upload" type="primary" @click="goSort()" :disabled="this.imageUrl==''?true:false">开始分类</el-button>
     </div>
-    <div class="result-display" :style="this.imageUrl==''?hidden_result:show_result">
+    <div class="result-display" :style="this.sort_result==''?hidden_result:show_result">
         <el-row style="width: 430px">
         <el-col :span="24" >
           <el-card :body-style="{ padding: '0px' }" style="height: 433px;width: 430px">
-            <img  :src="this.imageUrl==''?require('@/assets/logo.png'):require('@/assets/'+imageUrl)" class="image">
+            <img  :src="this.imageUrl==''?require('@/assets/logo.png'):require('../../../../backer/algorithm/CNN/sheep/testdata/testphoto/'+imageUrl)" class="image">
             <div style="padding: 14px;">
               <span style="color: #ED5A25;">分类结果：{{this.sort_result}}</span>
               <div class="bottom clearfix">
@@ -35,7 +35,10 @@ export default {
   name:"classify",
   data(){
     return{
-      sort_result:'羊',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      sort_result:'',
       imageUrl: '',
       currentDate: new Date(),
       show_result:{'display':'block'},
@@ -43,10 +46,9 @@ export default {
     };
   },
   methods:{
-    handleAvatarSuccess(res, file) {
-        this.imageUrl = file.name;
-      },
       beforeAvatarUpload(file) {
+        this.sort_result=''
+        this.imageUrl=file.name
         // const isJPG = file.type === 'image/jpeg';
         const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -59,8 +61,22 @@ export default {
         return isLt2M;
       },
     goSort(){
-      alert("分类2");
-    }
+      this.$axios
+        .post('/imgClassify/',{
+          imageUrl:this.imageUrl
+        })
+        .then(data =>{
+          if (data.data.result == "sheep"){
+            this.sort_result='羊'
+          }
+          else if(data.data.result == "dog"){
+            this.sort_result='狗'
+          }
+          else{
+            this.sort_result='分类错误'
+          }
+        })
+      }
     }
 }
 </script>

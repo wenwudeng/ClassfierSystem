@@ -21,5 +21,8 @@ urlpatterns = [
 
     # 数据标注
     path('getImage/',views.getDataUrl),
-    path('transData/',views.saveTransData)
+    path('transData/',views.saveTransData),
+
+    #图像分类
+    path('imgClassify/',views.classifyPhoto)
 ]
