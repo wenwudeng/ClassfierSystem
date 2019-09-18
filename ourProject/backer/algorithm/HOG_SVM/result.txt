@@ -1,0 +1,13 @@
+dog67.jpg sheep
+dog68.jpg sheep
+dog69.jpg dog
+dog70.jpg dog
+dog71.jpg sheep
+dog72.jpg sheep
+dog73.jpg sheep
+sheep1.jpg sheep
+sheep2.jpg sheep
+sheep3.jpg sheep
+sheep4.jpg sheep
+sheep5.jpg sheep
+sheep6.jpg dog
