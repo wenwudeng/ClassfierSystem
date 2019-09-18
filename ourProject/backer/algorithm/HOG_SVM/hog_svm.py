@@ -18,18 +18,18 @@ label_map = {0: 'sheep',
 # 训练集图片的位置
 train_image_path = 'image128'
 # 测试集图片的位置
-test_image_path = 'image128'
+test_image_path = 'testdata'
 
 # 训练集标签的位置
 train_label_path = os.path.join('image128', 'train.txt')
 # 测试集标签的位置
-test_label_path = os.path.join('image128', 'train.txt')
+test_label_path = os.path.join('testdata', 'test.txt')
 
-image_height = 128
-image_width = 100
+image_height = 64
+image_width = 64
 
 train_feat_path = 'train/'
-test_feat_path = 'testdata/'
+test_feat_path = 'test/'
 model_path = 'model/'
 
 
@@ -79,8 +79,8 @@ def get_name_label(file_path):
     label_list = []
     with open(file_path) as f:
         for line in f.readlines():
-            #一般是name label  三部分，所以至少长度为3  所以可以通过这个忽略空白行
-            if len(line)>=3: 
+            # 一般是name label  三部分，所以至少长度为3  所以可以通过这个忽略空白行
+            if len(line)>=3:
                 name_list.append(line.split(' ')[0])
                 label_list.append(line.split(' ')[1].replace('\n','').replace('\r',''))
                 if not str(label_list[-1]).isdigit():
@@ -92,8 +92,10 @@ def get_name_label(file_path):
 # 提取特征
 def extra_feat():
     train_name, train_label = get_name_label(train_label_path)
-    test_name, test_label = get_name_label(test_label_path)
+    test_name =[]
+    test_label=[]
 
+    print('testname:::%s' %test_name)
     train_image = get_image_list(train_image_path, train_name)
     test_image = get_image_list(test_image_path, test_name)
     get_feat(train_image, train_name, train_label, train_feat_path)

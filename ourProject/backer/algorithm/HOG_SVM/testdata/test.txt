@@ -1,0 +1,13 @@
+dog67.jpg 1
+dog68.jpg 1
+dog69.jpg 1
+dog70.jpg 1
+dog71.jpg 1
+dog72.jpg 1
+dog73.jpg 1
+sheep1.jpg 0
+sheep2.jpg 0
+sheep3.jpg 0
+sheep4.jpg 0
+sheep5.jpg 0
+sheep6.jpg 0
